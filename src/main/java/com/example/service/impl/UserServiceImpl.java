@@ -2,7 +2,6 @@ package com.example.service.impl;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
@@ -11,10 +10,8 @@ import com.example.config.util.CodeMsg;
 import com.example.config.util.MD5Util;
 import com.example.config.util.UUIDUtil;
 import com.example.dao.UserDao;
-import com.example.entity.User;
+import com.example.entity.UserAccount;
 import com.example.service.UserService;
-import com.example.vo.LoginVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Service
-public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implements UserService {
 	
 	
 	public static final String COOKI_NAME_TOKEN = "token";
@@ -36,54 +33,61 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
 	RedisService redisService;
 
 
-	public User regist(User user) {
-	    List list = userDao.selectList(new EntityWrapper<User>().eq("user_phone",user.getUserPhone()));
+	public UserAccount regist(UserAccount userAccount) {
+	    List list = userDao.selectList(new EntityWrapper<UserAccount>().eq("user_phone", userAccount.getUserPhone()));
 	    if(list.size() != 0){
 			throw new GlobalException(CodeMsg.ACCOUNT_IS_EXIT);
 		}
-        user.setCreateTime(new Date());
+        userAccount.setCreateTime(new Date());
         String salt = UUID.randomUUID().toString().substring(0,6);
-        user.setSalt(salt);
-        String password = user.getPassword()+salt;
-        user.setStatus("1000");
-        user.setPassword(MD5Util.md5(MD5Util.md5(password)));
-	    this.insert(user);
-		return user;
+        userAccount.setSalt(salt);
+        String password = userAccount.getPassword()+salt;
+        userAccount.setStatus("1000");
+        userAccount.setPassword(MD5Util.md5(MD5Util.md5(password)));
+	    this.insert(userAccount);
+		return userAccount;
 	}
 
-	public Map login(HttpServletRequest request, HttpServletResponse response, User userParm) {
+	public Map login(HttpServletRequest request, HttpServletResponse response, UserAccount userAccountParm) {
 		//判断手机号是否存在
-		User user = userDao.checkUser(userParm);
-		if(user == null) {
+		UserAccount userAccount = userDao.checkUser(userAccountParm);
+		if(userAccount == null) {
 			throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
 		}
 		//验证密码
-		String dbPass = user.getPassword();
-		String saltDB = user.getSalt();
-		String password = userParm.getPassword()+saltDB;
+		String dbPass = userAccount.getPassword();
+		String saltDB = userAccount.getSalt();
+		String password = userAccountParm.getPassword()+saltDB;
 		String calcPass = MD5Util.md5(MD5Util.md5(password));
 		if(!calcPass.equals(dbPass)) {
 			throw new GlobalException(CodeMsg.PASSWORD_ERROR);
 		}
 		//生成cookie
 		String token = UUIDUtil.uuid();
-//		addCookie(response, token, user);
+//		addCookie(response, token, userAccount);
 //		request.getSession().setAttribute("token",token);
-		redisService.set(UserKey.token, token, user);
+		redisService.set(UserKey.token, token, userAccount);
 		HashMap map = new HashMap();
-		map.put("userName",user.getUserName());
-		map.put("role",user.getRoleId());
-		map.put("userPhone",user.getUserPhone());
+		map.put("userName", userAccount.getUserName());
+		map.put("role", userAccount.getRoleId());
+		map.put("userPhone", userAccount.getUserPhone());
 		map.put("token",token);
 		return map;
 	}
 	
-	private void addCookie(HttpServletResponse response, String token, User user) {
-		redisService.set(UserKey.token, token, user);
+	private void addCookie(HttpServletResponse response, String token, UserAccount userAccount) {
+		redisService.set(UserKey.token, token, userAccount);
 		Cookie cookie = new Cookie(COOKI_NAME_TOKEN, token);
 		cookie.setMaxAge(UserKey.token.expireSeconds());
 		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
 
+	public void tests(HashMap map) {
+		userDao.insertCity(map);
+	}
+
+	public List selectUserList(UserAccount userAccount) {
+		return userDao.selectUserList(userAccount);
+	}
 }

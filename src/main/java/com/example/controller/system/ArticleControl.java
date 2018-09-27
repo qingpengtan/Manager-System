@@ -3,8 +3,8 @@ package com.example.controller.system;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.example.config.util.Result;
 import com.example.entity.Article;
-import com.example.entity.User;
 import com.example.service.ArticleService;
+import com.example.service.impl.ArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,11 +19,11 @@ import java.util.List;
 public class ArticleControl {
 
     @Autowired
-    ArticleService articleService;
+    ArticleServiceImpl articleService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
-        List articleList = articleService.selectList(new EntityWrapper<>());
+        List articleList = articleService.selectArticleList(article);
         return  Result.success(articleList);
     }
 

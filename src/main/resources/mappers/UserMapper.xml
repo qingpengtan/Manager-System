@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.example.entity.User">
+  <resultMap id="BaseResultMap" type="com.example.entity.UserAccount">
     <id column="user_uuid" jdbcType="INTEGER" property="userUuid" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
@@ -86,7 +86,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -97,21 +97,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
+    delete from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.entity.UserExample">
-    delete from user
+    delete from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.entity.User">
-    insert into user (user_uuid, role_id, user_phone, 
+  <insert id="insert" parameterType="com.example.entity.UserAccount">
+    insert into userAccount (user_uuid, role_id, user_phone,
       user_name, salt, password, 
       sex, age, province, 
       city, address, user_tag, 
@@ -124,8 +124,8 @@
       #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.User">
-    insert into user
+  <insert id="insertSelective" parameterType="com.example.entity.UserAccount">
+    insert into userAccount
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
         user_uuid,
@@ -222,7 +222,7 @@
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update userAccount
     <set>
       <if test="record.userUuid != null">
         user_uuid = #{record.userUuid,jdbcType=INTEGER},
@@ -275,7 +275,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update userAccount
     set user_uuid = #{record.userUuid,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
       user_phone = #{record.userPhone,jdbcType=VARCHAR},
@@ -295,8 +295,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.UserAccount">
+    update userAccount
     <set>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
@@ -343,8 +343,8 @@
     </set>
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.example.entity.UserAccount">
+    update userAccount
     set role_id = #{roleId,jdbcType=INTEGER},
       user_phone = #{userPhone,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
@@ -361,7 +361,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <resultMap id="BaseResultMap" type="com.example.entity.User">
+  <resultMap id="BaseResultMap" type="com.example.entity.UserAccount">
     <id column="user_uuid" jdbcType="INTEGER" property="userUuid" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
@@ -446,7 +446,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -457,21 +457,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
+    delete from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.entity.UserExample">
-    delete from user
+    delete from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.entity.User">
-    insert into user (user_uuid, role_id, user_phone, 
+  <insert id="insert" parameterType="com.example.entity.UserAccount">
+    insert into userAccount (user_uuid, role_id, user_phone,
       user_name, salt, password, 
       sex, age, province, 
       city, address, user_tag, 
@@ -484,8 +484,8 @@
       #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.User">
-    insert into user
+  <insert id="insertSelective" parameterType="com.example.entity.UserAccount">
+    insert into userAccount
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
         user_uuid,
@@ -582,7 +582,7 @@
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update userAccount
     <set>
       <if test="record.userUuid != null">
         user_uuid = #{record.userUuid,jdbcType=INTEGER},
@@ -635,7 +635,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update userAccount
     set user_uuid = #{record.userUuid,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
       user_phone = #{record.userPhone,jdbcType=VARCHAR},
@@ -655,8 +655,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.UserAccount">
+    update userAccount
     <set>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
@@ -703,8 +703,8 @@
     </set>
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.example.entity.UserAccount">
+    update userAccount
     set role_id = #{roleId,jdbcType=INTEGER},
       user_phone = #{userPhone,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
@@ -721,7 +721,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <resultMap id="BaseResultMap" type="com.example.entity.User">
+  <resultMap id="BaseResultMap" type="com.example.entity.UserAccount">
     <id column="user_uuid" jdbcType="INTEGER" property="userUuid" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
@@ -804,7 +804,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -815,21 +815,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
+    delete from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.entity.UserExample">
-    delete from user
+    delete from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.entity.User">
-    insert into user (user_uuid, role_id, salt, 
+  <insert id="insert" parameterType="com.example.entity.UserAccount">
+    insert into userAccount (user_uuid, role_id, salt,
       password, sex, age, 
       province, city, address, 
       user_tag, birthday, status, 
@@ -840,8 +840,8 @@
       #{userTag,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.User">
-    insert into user
+  <insert id="insertSelective" parameterType="com.example.entity.UserAccount">
+    insert into userAccount
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
         user_uuid,
@@ -926,7 +926,7 @@
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update userAccount
     <set>
       <if test="record.userUuid != null">
         user_uuid = #{record.userUuid,jdbcType=INTEGER},
@@ -973,7 +973,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update userAccount
     set user_uuid = #{record.userUuid,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
       salt = #{record.salt,jdbcType=VARCHAR},
@@ -991,8 +991,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.UserAccount">
+    update userAccount
     <set>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
@@ -1033,8 +1033,8 @@
     </set>
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.example.entity.UserAccount">
+    update userAccount
     set role_id = #{roleId,jdbcType=INTEGER},
       salt = #{salt,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -1049,7 +1049,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <resultMap id="BaseResultMap" type="com.example.entity.User">
+  <resultMap id="BaseResultMap" type="com.example.entity.UserAccount">
     <id column="user_uuid" jdbcType="INTEGER" property="userUuid" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -1130,7 +1130,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -1141,21 +1141,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
+    delete from userAccount
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.entity.UserExample">
-    delete from user
+    delete from userAccount
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.entity.User">
-    insert into user (user_uuid, role_id, sex, 
+  <insert id="insert" parameterType="com.example.entity.UserAccount">
+    insert into userAccount (user_uuid, role_id, sex,
       age, province, city, 
       address, user_tag, birthday, 
       status, create_time)
@@ -1164,8 +1164,8 @@
       #{address,jdbcType=VARCHAR}, #{userTag,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.User">
-    insert into user
+  <insert id="insertSelective" parameterType="com.example.entity.UserAccount">
+    insert into userAccount
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
         user_uuid,
@@ -1238,7 +1238,7 @@
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update userAccount
     <set>
       <if test="record.userUuid != null">
         user_uuid = #{record.userUuid,jdbcType=INTEGER},
@@ -1279,7 +1279,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update userAccount
     set user_uuid = #{record.userUuid,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
       sex = #{record.sex,jdbcType=VARCHAR},
@@ -1295,8 +1295,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.UserAccount">
+    update userAccount
     <set>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
@@ -1331,8 +1331,8 @@
     </set>
     where user_uuid = #{userUuid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.User">
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.example.entity.UserAccount">
+    update userAccount
     set role_id = #{roleId,jdbcType=INTEGER},
       sex = #{sex,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},

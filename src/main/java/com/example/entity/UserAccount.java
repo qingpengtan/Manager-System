@@ -11,8 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@TableName("user")
-public class User {
+@TableName("user_account")
+public class UserAccount {
 
     @TableId(value="user_uuid",type= IdType.AUTO)
     private Integer userUuid;

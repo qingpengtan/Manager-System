@@ -31,11 +31,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 		registry.addInterceptor(miniInterceptor()).addPathPatterns("/sys/**")
 													.addPathPatterns("/user/**")
-												  .excludePathPatterns("/sys/user/login")
+												  .excludePathPatterns("/sys/user/login","/sys/user/test")
 												  .excludePathPatterns("/user/login","/user/regist");
 
 		registry.addInterceptor(systemInterceptor()).addPathPatterns("/sys/**")
-				.excludePathPatterns("/sys/user/login");
+				.excludePathPatterns("/sys/user/login","/sys/user/test");
 
 		super.addInterceptors(registry);
 	}

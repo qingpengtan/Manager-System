@@ -2,7 +2,7 @@ package com.example.config.interceptor;
 
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
-import com.example.entity.User;
+import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 			return null;
 		}
 		String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-		return redis.get(UserKey.token, token, User.class);
+		return redis.get(UserKey.token, token, UserAccount.class);
 	}
 
 	private String getCookieValue(HttpServletRequest request, String cookiName) {

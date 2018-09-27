@@ -4,19 +4,14 @@ import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
-import com.example.config.util.Result;
-import com.example.entity.User;
+import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 
 public class SystemInterceptor implements HandlerInterceptor {
 
@@ -35,9 +30,9 @@ public class SystemInterceptor implements HandlerInterceptor {
 
 
         String token = request.getHeader("token");
-        User user = redis.get(UserKey.token, token, User.class);
+        UserAccount userAccount = redis.get(UserKey.token, token, UserAccount.class);
 
-        if (user.getRoleId() != 3)
+        if (userAccount.getRoleId() != 3)
             throw new GlobalException(CodeMsg.NO_PERMISSION);
         return true;
     }
