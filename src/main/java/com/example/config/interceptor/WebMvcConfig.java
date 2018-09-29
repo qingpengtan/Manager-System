@@ -29,8 +29,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
-		registry.addInterceptor(miniInterceptor()).addPathPatterns("/sys/**")
-													.addPathPatterns("/user/**")
+		registry.addInterceptor(miniInterceptor()).addPathPatterns("/sys/**","/user/**","index/**")
 												  .excludePathPatterns("/sys/user/login","/sys/user/test")
 												  .excludePathPatterns("/user/login","/user/regist");
 

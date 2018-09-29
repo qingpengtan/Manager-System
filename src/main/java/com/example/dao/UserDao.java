@@ -26,6 +26,7 @@ public interface UserDao extends BaseMapper<UserAccount> {
 	@Select("select u.user_uuid as userUuid,u.user_name as userName, u.user_phone as userPhone, u.role_id as roleId," +
 			" u.age,DATE_FORMAT(u.birthday,'%Y-%m-%d') as birthday ,u.province as provinceV,u.city as cityV,"+
 			" u.sex,p.province,c.city,u.address,u.user_tag as userTag,u.status, DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i') AS createTime" +
-			" from user_account u left join province p on p.svalue = u.province left join province c on c.svalue = u.city order by u.create_time desc")
+			" from user_account u left join province p on p.svalue = u.province left join province c on c.svalue = u.city where u.user_phone" +
+			"=#{userAccount.userPhone} order by u.create_time desc")
 	List<Map<String,Object>> selectUserList(@Param("userAccount") UserAccount userAccount);
 }

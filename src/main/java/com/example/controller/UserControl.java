@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import com.example.config.redis.RedisService;
+import com.example.config.redis.UserKey;
+import com.example.config.util.MD5Util;
 import com.example.config.util.Result;
 import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
@@ -10,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 /*
@@ -25,6 +31,9 @@ public class UserControl {
     @Autowired
     UserServiceImpl userService;
 
+    @Autowired
+    RedisService redisService;
+
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
     public Result registUser(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
@@ -38,6 +47,22 @@ public class UserControl {
         userAccount.setRoleId(1);
         Map map = userService.login(request,response, userAccount);
         return  Result.success(map);
+    }
+
+    @RequestMapping(value = "/personInfo", method = RequestMethod.POST)
+    public Result personInfo(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
+        String token = request.getHeader("token");
+        UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
+        List list = userService.selectUserList(user);
+        return  Result.success(list.get(0));
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Result save(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
+
+        userService.insertOrUpdate(userAccount);
+
+        return  Result.success(null);
     }
 }
 
