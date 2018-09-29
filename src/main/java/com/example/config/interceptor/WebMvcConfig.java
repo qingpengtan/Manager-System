@@ -42,9 +42,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 
 //	参数传递
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 //        argumentResolvers.add(userArgumentResolver);
-//    }
+    }
 
 }

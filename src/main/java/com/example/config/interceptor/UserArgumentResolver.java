@@ -28,7 +28,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 	
 	public boolean supportsParameter(MethodParameter parameter) {
 		Class<?> clazz = parameter.getParameterType();
-		return clazz== UserServiceImpl.class;
+//		return clazz== UserAccount.class;
+		return false;
 	}
 
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
@@ -36,12 +37,13 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 		
-		String paramToken = request.getParameter(UserServiceImpl.COOKI_NAME_TOKEN);
-		String cookieToken = getCookieValue(request, UserServiceImpl.COOKI_NAME_TOKEN);
-		if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
-			return null;
-		}
-		String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+//		String paramToken = request.getParameter(UserServiceImpl.COOKI_NAME_TOKEN);
+//		String cookieToken = getCookieValue(request, UserServiceImpl.COOKI_NAME_TOKEN);
+//		if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
+//			return null;
+//		}
+//		String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+		String token = request.getHeader("token");
 		return redis.get(UserKey.token, token, UserAccount.class);
 	}
 

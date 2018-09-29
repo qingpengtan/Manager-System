@@ -62,4 +62,11 @@ public class UserControll {
 
         return  Result.success(null);
     }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Result delete(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        userService.deleteById(Integer.parseInt(id));
+        return  Result.success(null);
+    }
 }
