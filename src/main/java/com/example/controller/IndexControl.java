@@ -9,6 +9,7 @@ import com.example.entity.Article;
 import com.example.entity.UserAccount;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.UserServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,9 @@ public class IndexControl {
     public Result save(HttpServletRequest request, HttpServletResponse response, Article article) {
         String token = request.getHeader("token");
         UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
-            article.setArticleTitle("说说");
+            if(StringUtils.isEmpty(article.getArticleTitle())){
+                article.setArticleTitle("说说");
+            }
             article.setStatus("1000");
             article.setArticleTagId(1);
             article.setCreateTime(new Date());
