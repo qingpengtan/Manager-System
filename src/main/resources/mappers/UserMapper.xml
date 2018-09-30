@@ -50,7 +50,7 @@
     c.city,
     u.address,
     u.user_tag AS userTag,
-    u. STATUS,
+    u.status,
     DATE_FORMAT(
     u.create_time,
     '%Y-%m-%d %H:%i'
