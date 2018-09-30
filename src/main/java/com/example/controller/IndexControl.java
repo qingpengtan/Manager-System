@@ -61,4 +61,11 @@ public class IndexControl {
         List articleList = articleService.selectArticleList(article);
         return  Result.success(articleList.get(0));
     }
+
+    @RequestMapping(value = "/classify", method = RequestMethod.POST)
+    public Result classify(HttpServletRequest request, HttpServletResponse response) {
+        String param = request.getParameter("exculde");
+        List classify = articleService.classify(param);
+        return  Result.success(classify);
+    }
 }

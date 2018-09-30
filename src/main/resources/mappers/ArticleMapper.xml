@@ -1,470 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.dao.ArticleMapper">
+<mapper namespace="com.example.dao.ArticleDao">
   <resultMap id="BaseResultMap" type="com.example.entity.Article">
     <id column="article_id" jdbcType="INTEGER" property="articleId" />
     <result column="article_tag_id" jdbcType="INTEGER" property="articleTagId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    article_id, article_tag_id, user_id, article_title, content, status, create_time
-  </sql>
-  <select id="selectByExample" parameterType="com.example.entity.ArticleExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from article
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from article
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from article
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.example.entity.ArticleExample">
-    delete from article
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.example.entity.Article">
-    insert into article (article_id, article_tag_id, user_id, 
-      article_title, content, status, 
-      create_time)
-    values (#{articleId,jdbcType=INTEGER}, #{articleTagId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{articleTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.Article">
-    insert into article
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        article_id,
-      </if>
-      <if test="articleTagId != null">
-        article_tag_id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="articleTitle != null">
-        article_title,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        #{articleId,jdbcType=INTEGER},
-      </if>
-      <if test="articleTagId != null">
-        #{articleTagId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="articleTitle != null">
-        #{articleTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByExampleSelective" parameterType="map">
-    update article
-    <set>
-      <if test="record.articleId != null">
-        article_id = #{record.articleId,jdbcType=INTEGER},
-      </if>
-      <if test="record.articleTagId != null">
-        article_tag_id = #{record.articleTagId,jdbcType=INTEGER},
-      </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.articleTitle != null">
-        article_title = #{record.articleTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update article
-    set article_id = #{record.articleId,jdbcType=INTEGER},
-      article_tag_id = #{record.articleTagId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      article_title = #{record.articleTitle,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.Article">
-    update article
-    <set>
-      <if test="articleTagId != null">
-        article_tag_id = #{articleTagId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="articleTitle != null">
-        article_title = #{articleTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.Article">
-    update article
-    set article_tag_id = #{articleTagId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      article_title = #{articleTitle,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="com.example.entity.Article">
-    <id column="article_id" jdbcType="INTEGER" property="articleId" />
-    <result column="article_tag_id" jdbcType="INTEGER" property="articleTagId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.entity.Article">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    article_id, article_tag_id, user_id, article_title, content, status, create_time
-  </sql>
-  <select id="selectByExample" parameterType="com.example.entity.ArticleExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
+
+
+
+
+  <select id="selectArticleList" parameterType="com.example.entity.Article" resultType="Map">
+    SELECT
+    a.article_id AS articleId,
+    a.article_tag_id AS articleTag,
+    u.user_name AS userName,
+    u.user_phone AS userPhone,
+    a.article_title AS articleTitle,
+    a.content,
+    a. STATUS,
+    DATE_FORMAT(
+    a.create_time,
+    '%Y-%m-%d %H:%i'
+    ) AS createTime
+    FROM
+    article a
+    LEFT JOIN user_account u ON a.user_id = u.user_uuid
+    WHERE
+    1 = 1
+    <if test="article.articleId !=null and article.articleId != ''">
+      AND a.article_id = #{article.articleId}
     </if>
-    <include refid="Base_Column_List" />
-    from article
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
+    order by a.create_time desc
+
+  </select>
+
+  <select id="classify" parameterType="String" resultType="Map">
+    SELECT
+    article_tag_id AS articleTagId,
+    article_tag AS articleTag
+    FROM
+    article_tag
+    WHERE
+    1 = 1
+    <if test="exclude !=null and exclude != ''">
+      AND article_tag != '心情日志'
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from article
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from article
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.example.entity.ArticleExample">
-    delete from article
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.example.entity.Article">
-    insert into article (article_id, article_tag_id, user_id, 
-      article_title, content, status, 
-      create_time)
-    values (#{articleId,jdbcType=INTEGER}, #{articleTagId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{articleTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.Article">
-    insert into article
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        article_id,
-      </if>
-      <if test="articleTagId != null">
-        article_tag_id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="articleTitle != null">
-        article_title,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        #{articleId,jdbcType=INTEGER},
-      </if>
-      <if test="articleTagId != null">
-        #{articleTagId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="articleTitle != null">
-        #{articleTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByExampleSelective" parameterType="map">
-    update article
-    <set>
-      <if test="record.articleId != null">
-        article_id = #{record.articleId,jdbcType=INTEGER},
-      </if>
-      <if test="record.articleTagId != null">
-        article_tag_id = #{record.articleTagId,jdbcType=INTEGER},
-      </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.articleTitle != null">
-        article_title = #{record.articleTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update article
-    set article_id = #{record.articleId,jdbcType=INTEGER},
-      article_tag_id = #{record.articleTagId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      article_title = #{record.articleTitle,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.Article">
-    update article
-    <set>
-      <if test="articleTagId != null">
-        article_tag_id = #{articleTagId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="articleTitle != null">
-        article_title = #{articleTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.Article">
-    update article
-    set article_tag_id = #{articleTagId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      article_title = #{articleTitle,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </update>
+
 </mapper>

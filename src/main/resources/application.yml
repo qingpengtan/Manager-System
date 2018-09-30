@@ -40,12 +40,10 @@ spring:
 #  mapperLocations: classpath:com/example/dao/*.xml
 #  type-aliases-package: com.example.entity
 mybatis-plus:
-  # ����ɨ��xml
-  mapper-locations: classpath:com/example/dao/*.xml
-  # ʵ��ɨ�裬���package�ö��Ż��߷ֺŷָ�
+#  mapper-locations: classpath:com/example/dao/*.xml
+  mapper-locations: classpath:/mappers/*Mapper.xml
   type-aliases-package: com.example.entity
   global-config:
-    # �߼�ɾ������
     logic-delete-value: 0
     logic-not-delete-value: 1
     sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector

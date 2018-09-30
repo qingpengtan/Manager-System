@@ -85,9 +85,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		response.addCookie(cookie);
 	}
 
-	public void tests(HashMap map) {
-		userDao.insertCity(map);
-	}
+
 
 	public List selectUserList(UserAccount userAccount) {
 		return userDao.selectUserList(userAccount);
