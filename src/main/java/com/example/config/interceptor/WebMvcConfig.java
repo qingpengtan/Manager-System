@@ -31,7 +31,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 		registry.addInterceptor(miniInterceptor()).addPathPatterns("/sys/**","/user/**","index/**")
 												  .excludePathPatterns("/sys/user/login","/sys/user/test")
-												  .excludePathPatterns("/user/login","/user/regist");
+												  .excludePathPatterns("/user/login","/user/regist","/user/verifiCode");
 
 		registry.addInterceptor(systemInterceptor()).addPathPatterns("/sys/**")
 				.excludePathPatterns("/sys/user/login","/sys/user/test");

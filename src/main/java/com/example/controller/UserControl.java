@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
+import com.example.config.util.CodeMsg;
 import com.example.config.util.MD5Util;
 import com.example.config.util.Result;
+import com.example.config.util.VerifiCode;
 import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +42,35 @@ public class UserControl {
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
     public Result registUser(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
-        userAccount.setRoleId(1);
+        String code = request.getParameter("imageCode");
+        String imageCode = (String) request.getSession().getAttribute("imageCode");
+        if(!imageCode.equalsIgnoreCase(code)){
+            return  Result.error(new CodeMsg(500218,"验证码错误"));
+        }
         userService.regist(userAccount);
         return  Result.success(null);
+    }
+
+    @RequestMapping(value = "/verifiCode", method = RequestMethod.GET)
+    public void verifiCode(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
+        VerifiCode verifiCode = new VerifiCode();
+        BufferedImage  image = verifiCode.getImage();
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            String code = verifiCode.getText();
+            request.getSession().setAttribute("imageCode",code);
+            verifiCode.output(image,out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

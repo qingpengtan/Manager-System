@@ -38,7 +38,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 	    if(list.size() != 0){
 			throw new GlobalException(CodeMsg.ACCOUNT_IS_EXIT);
 		}
-        userAccount.setCreateTime(new Date());
+		userAccount.setUserName(userAccount.getUserPhone());
+		userAccount.setRoleId(1);
+		userAccount.setCreateTime(new Date());
         String salt = UUID.randomUUID().toString().substring(0,6);
         userAccount.setSalt(salt);
         String password = userAccount.getPassword()+salt;
