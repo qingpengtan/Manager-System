@@ -75,6 +75,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		if(userAccount == null) {
 			throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
 		}
+		if(userAccount.getStatus().equals("2000")) {
+			throw new GlobalException(CodeMsg.DISABLED_ACCOUNT);
+		}
 		//验证密码
 		String dbPass = userAccount.getPassword();
 		String saltDB = userAccount.getSalt();

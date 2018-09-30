@@ -12,7 +12,8 @@ public class CodeMsg {
 	//登录模块 5002XX
 	public static CodeMsg OUT_LINE = new CodeMsg(500210, "账号未登录");
 	public static CodeMsg ACCOUNT_QUIT= new CodeMsg(500211, "账号被挤出...");
-	public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500214, "手机号不存在");
+	public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500213, "手机号不存在");
+	public static CodeMsg DISABLED_ACCOUNT = new CodeMsg(500214, "账号已被禁用");
 	public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
 	public static CodeMsg ACCOUNT_IS_EXIT = new CodeMsg(500216, "号码已被注册");
 	public static CodeMsg NO_PERMISSION = new CodeMsg(500217, "您暂无权限查看");
