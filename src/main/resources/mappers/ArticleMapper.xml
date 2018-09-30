@@ -23,8 +23,9 @@
     u.user_name AS userName,
     u.user_phone AS userPhone,
     a.article_title AS articleTitle,
+    at.article_tag as articleTagName,
     a.content,
-    a. STATUS,
+    a. status,
     DATE_FORMAT(
     a.create_time,
     '%Y-%m-%d %H:%i'
@@ -32,6 +33,7 @@
     FROM
     article a
     LEFT JOIN user_account u ON a.user_id = u.user_uuid
+    LEFT JOIN article_tag at on a.article_tag_id = at.article_tag_id
     WHERE
     1 = 1
     <if test="article.articleId !=null and article.articleId != ''">

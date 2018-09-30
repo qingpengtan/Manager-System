@@ -50,7 +50,16 @@
     c.city,
     u.address,
     u.user_tag AS userTag,
-    u.status,
+    (SELECT
+    GROUP_CONCAT(a.article_tag)
+    FROM
+    article_tag a
+    WHERE
+    FIND_IN_SET(
+    a.article_tag_id,
+    u.user_tag)
+    ) AS userTagName,
+    u. STATUS,
     DATE_FORMAT(
     u.create_time,
     '%Y-%m-%d %H:%i'

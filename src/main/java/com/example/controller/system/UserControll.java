@@ -49,17 +49,7 @@ public class UserControll {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
-        if(userAccount.getUserUuid() == null){
-            userAccount.setCreateTime(new Date());
-            String salt = UUID.randomUUID().toString().substring(0,6);
-            userAccount.setSalt(salt);
-            String password = "123456qq"+salt;
-            userAccount.setPassword(MD5Util.md5(MD5Util.md5(password)));
-            userService.insert(userAccount);
-        }else{
-            userService.insertOrUpdate(userAccount);
-        }
-
+        userService.save(userAccount);
         return  Result.success(null);
     }
 

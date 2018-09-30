@@ -38,7 +38,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 	    if(list.size() != 0){
 			throw new GlobalException(CodeMsg.ACCOUNT_IS_EXIT);
 		}
-		userAccount.setUserName(userAccount.getUserPhone());
+		String userName = userAccount.getUserPhone().substring(8)+"用户";
+		userAccount.setUserName(userName);
 		userAccount.setRoleId(1);
 		userAccount.setCreateTime(new Date());
         String salt = UUID.randomUUID().toString().substring(0,6);
@@ -47,6 +48,24 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
         userAccount.setStatus("1000");
         userAccount.setPassword(MD5Util.md5(MD5Util.md5(password)));
 	    this.insert(userAccount);
+		return userAccount;
+	}
+
+	public UserAccount save(UserAccount userAccount) {
+		List list = userDao.selectList(new EntityWrapper<UserAccount>().eq("user_phone", userAccount.getUserPhone()));
+		if(list.size() != 0){
+			throw new GlobalException(CodeMsg.ACCOUNT_IS_EXIT);
+		}
+		if(userAccount.getUserUuid() == null){
+			userAccount.setCreateTime(new Date());
+			String salt = UUID.randomUUID().toString().substring(0,6);
+			userAccount.setSalt(salt);
+			String password = "123456qq"+salt;
+			userAccount.setPassword(MD5Util.md5(MD5Util.md5(password)));
+			this.insert(userAccount);
+		}else{
+			this.insertOrUpdate(userAccount);
+		}
 		return userAccount;
 	}
 

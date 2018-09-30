@@ -10,6 +10,8 @@ import com.example.entity.UserAccount;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.UserServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +26,7 @@ import java.util.List;
 @RequestMapping("/index")
 public class IndexControl {
 
+    private final static Logger log = LoggerFactory.getLogger(IndexControl.class);
 
     @Autowired
     ArticleServiceImpl articleService;
@@ -34,11 +37,9 @@ public class IndexControl {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(HttpServletRequest request, HttpServletResponse response, Article article) {
-        String token = request.getHeader("token");
-        UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
-            if(StringUtils.isEmpty(article.getArticleTitle())){
-                article.setArticleTitle("说说");
-            }
+        if(article.getArticleId() == null){
+            String token = request.getHeader("token");
+            UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
             if(article.getArticleId() == null){
                 article.setArticleTagId(1);
             }
@@ -46,8 +47,16 @@ public class IndexControl {
             article.setCreateTime(new Date());
             UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
                     .eq("user_phone",userAccount.getUserPhone()));
+            if(StringUtils.isEmpty(article.getArticleTitle())){
+                article.setArticleTitle(user.getUserName());
+            }
             article.setUserId(user.getUserUuid());
             articleService.insert(article);
+        }
+        else {
+            articleService.insertOrUpdate(article);
+        }
+
         return  Result.success(null);
     }
 
@@ -55,6 +64,7 @@ public class IndexControl {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
         List articleList = articleService.selectArticleList(article);
+        log.info("--------------<>-----------");
         return  Result.success(articleList);
     }
 
@@ -69,5 +79,12 @@ public class IndexControl {
         String param = request.getParameter("exculde");
         List classify = articleService.classify(param);
         return  Result.success(classify);
+    }
+
+    @RequestMapping(value = "/isEdit", method = RequestMethod.POST)
+    public Result isEdit(HttpServletRequest request, HttpServletResponse response) {
+        String param = request.getParameter("userPhone");
+        Boolean flag = articleService.isEdit(request,param);
+        return  Result.success(flag);
     }
 }
