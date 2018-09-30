@@ -39,8 +39,10 @@ public class IndexControl {
             if(StringUtils.isEmpty(article.getArticleTitle())){
                 article.setArticleTitle("说说");
             }
+            if(article.getArticleId() == null){
+                article.setArticleTagId(1);
+            }
             article.setStatus("1000");
-            article.setArticleTagId(1);
             article.setCreateTime(new Date());
             UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
                     .eq("user_phone",userAccount.getUserPhone()));
