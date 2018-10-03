@@ -20,13 +20,14 @@
   </resultMap>
 
 
-  <select id="checkUser" parameterType="com.example.entity.UserAccount" resultType="Map">
+  <select id="checkUser" parameterType="com.example.entity.UserAccount" resultType="com.example.entity.UserAccount">
     SELECT
 	salt,
 	PASSWORD,
 	role_id AS roleId,
 	user_phone AS userPhone,
-	user_name AS userNme
+	user_name AS userNme,
+	status
     FROM
 	user_account
 	where (user_phone = #{userAccount.userName}

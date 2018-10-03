@@ -62,15 +62,14 @@ public class IndexControl {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
-        List articleList = articleService.selectArticleList(article);
-        log.info("--------------<>-----------");
+    public Result List(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
+        List articleList = articleService.selectArticleList(article,userAccount);
         return  Result.success(articleList);
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    public Result detail(HttpServletRequest request, HttpServletResponse response, Article article) {
-        List articleList = articleService.selectArticleList(article);
+    public Result detail(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
+        List articleList = articleService.selectArticleList(article,userAccount);
         return  Result.success(articleList.get(0));
     }
 

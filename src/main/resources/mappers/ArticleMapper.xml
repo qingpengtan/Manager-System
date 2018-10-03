@@ -39,6 +39,9 @@
     <if test="article.articleId !=null and article.articleId != ''">
       AND a.article_id = #{article.articleId}
     </if>
+    <if test="user.userPhone !=null and user.userPhone != ''">
+      AND u.user_phone = #{user.userPhone}
+    </if>
     <if test="article.articleTagId !=null and article.articleTagId != ''">
       AND a.article_tag_id = #{article.articleTagId}
     </if>

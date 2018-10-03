@@ -31,8 +31,8 @@ public class ArticleControl {
     RedisService redisService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
-        List articleList = articleService.selectArticleList(article);
+    public Result List(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
+        List articleList = articleService.selectArticleList(article,userAccount);
         return  Result.success(articleList);
     }
 

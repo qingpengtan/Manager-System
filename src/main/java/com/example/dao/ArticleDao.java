@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public interface ArticleDao extends BaseMapper<Article> {
 
-	List<Map<String,Object>> selectArticleList(@Param("article") Article article);
+	List<Map<String,Object>> selectArticleList(@Param("article") Article article,@Param("user")UserAccount userAccount);
 
 
 

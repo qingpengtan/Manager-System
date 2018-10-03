@@ -25,8 +25,8 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
     @Autowired
     UserServiceImpl userService;
 
-    public List selectArticleList(Article article) {
-        return articleDao.selectArticleList(article);
+    public List selectArticleList(Article article,UserAccount userAccount) {
+        return articleDao.selectArticleList(article,userAccount);
     }
 
     public List classify(String param) {
