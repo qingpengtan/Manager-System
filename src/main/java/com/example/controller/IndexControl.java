@@ -2,8 +2,10 @@ package com.example.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
+import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
 import com.example.entity.Article;
 import com.example.entity.UserAccount;
@@ -37,16 +39,16 @@ public class IndexControl {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(HttpServletRequest request, HttpServletResponse response, Article article) {
+        String token = request.getHeader("token");
+        UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
+        UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
+                .eq("user_phone",userAccount.getUserPhone()));
         if(article.getArticleId() == null){
-            String token = request.getHeader("token");
-            UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
-            if(article.getArticleId() == null){
+            if(article.getArticleTagId() == null){
                 article.setArticleTagId(1);
             }
             article.setStatus("1000");
             article.setCreateTime(new Date());
-            UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
-                    .eq("user_phone",userAccount.getUserPhone()));
             if(StringUtils.isEmpty(article.getArticleTitle())){
                 article.setArticleTitle(user.getUserName());
             }
@@ -54,6 +56,9 @@ public class IndexControl {
             articleService.insert(article);
         }
         else {
+            if(user.getUserUuid() != article.getUserId()){
+                throw new GlobalException(CodeMsg.NO_PERMISSION_EDITOR);
+            }
             articleService.insertOrUpdate(article);
         }
 
