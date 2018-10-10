@@ -80,7 +80,11 @@ public class IndexControl {
         page.setSize(10);
         String token = request.getHeader("token");
         UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
-        List articleList = articleService.selectArticleList(page,article,userAccount, null);
+        String personInfo = request.getParameter("personInfo");
+        if(StringUtils.isEmpty(personInfo)){
+            personInfo = null;
+        }
+        List articleList = articleService.selectArticleList(page,article,userAccount, personInfo);
         page.setRecords(articleList);
         HashMap map = new HashMap();
         map.put("totalPage",page.getPages());
@@ -94,8 +98,7 @@ public class IndexControl {
         Page page = new Page();
         page.setCurrent(1);
         page.setSize(1);
-        String detial = "detail";
-        List articleList = articleService.selectArticleList(page,article,userAccount,detial);
+        List articleList = articleService.selectArticleList(page,article,userAccount,null);
         return  Result.success(articleList.get(0));
     }
 
