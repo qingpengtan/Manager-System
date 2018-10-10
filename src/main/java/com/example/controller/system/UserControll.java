@@ -51,12 +51,13 @@ public class UserControll {
         }
         Page page = new Page();
         page.setCurrent(Integer.parseInt(pageN));
-        page.setSize(4);
+        page.setSize(10);
         List userList = userService.selectUserList(page,userAccount);
         page.setRecords(userList);
         HashMap map = new HashMap();
         map.put("totalPage",page.getPages());
         map.put("current",page.getCurrent());
+        map.put("totalSize",page.getTotal());
         map.put("userList",page.getRecords());
         return  Result.success(map);
     }

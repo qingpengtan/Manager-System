@@ -47,6 +47,7 @@ public class ArticleControl {
         HashMap map = new HashMap();
         map.put("totalPage",page.getPages());
         map.put("current",page.getCurrent());
+        map.put("totalSize",page.getTotal());
         map.put("articleList",page.getRecords());
         return  Result.success(map);
     }
