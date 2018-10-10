@@ -1,10 +1,12 @@
 package com.example.controller.system;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.config.util.MD5Util;
 import com.example.config.util.Result;
 import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,8 +45,20 @@ public class UserControll {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
-        List userList = userService.selectUserList(userAccount);
-        return  Result.success(userList);
+        String pageN= request.getParameter("page");
+        if(StringUtils.isEmpty(pageN)){
+            pageN = "1";
+        }
+        Page page = new Page();
+        page.setCurrent(Integer.parseInt(pageN));
+        page.setSize(4);
+        List userList = userService.selectUserList(page,userAccount);
+        page.setRecords(userList);
+        HashMap map = new HashMap();
+        map.put("totalPage",page.getPages());
+        map.put("current",page.getCurrent());
+        map.put("userList",page.getRecords());
+        return  Result.success(map);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)

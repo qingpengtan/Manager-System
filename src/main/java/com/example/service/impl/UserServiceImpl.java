@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
@@ -109,7 +110,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 
 
 
-	public List selectUserList(UserAccount userAccount) {
-		return userDao.selectUserList(userAccount);
+	public List selectUserList(Page page, UserAccount userAccount) {
+		return userDao.selectUserList(page,userAccount);
 	}
 }

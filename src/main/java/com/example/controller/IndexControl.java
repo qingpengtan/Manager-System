@@ -2,6 +2,8 @@ package com.example.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -68,13 +71,28 @@ public class IndexControl {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
-        List articleList = articleService.selectArticleList(article,userAccount);
-        return  Result.success(articleList);
+        String pageN= request.getParameter("page");
+        if(StringUtils.isEmpty(pageN)){
+            pageN = "1";
+        }
+        Page page = new Page();
+        page.setCurrent(Integer.parseInt(pageN));
+        page.setSize(10);
+        List articleList = articleService.selectArticleList(page,article,userAccount);
+        page.setRecords(articleList);
+        HashMap map = new HashMap();
+        map.put("totalPage",page.getPages());
+        map.put("current",page.getCurrent());
+        map.put("articleList",page.getRecords());
+        return  Result.success(map);
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     public Result detail(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
-        List articleList = articleService.selectArticleList(article,userAccount);
+        Page page = new Page();
+        page.setCurrent(1);
+        page.setSize(1);
+        List articleList = articleService.selectArticleList(page,article,userAccount);
         return  Result.success(articleList.get(0));
     }
 

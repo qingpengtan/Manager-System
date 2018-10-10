@@ -1,9 +1,9 @@
 package com.example.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
-import com.example.config.util.MD5Util;
 import com.example.config.util.Result;
 import com.example.config.util.VerifiCode;
 import com.example.entity.UserAccount;
@@ -18,10 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 
 /*
@@ -83,8 +81,11 @@ public class UserControl {
     @RequestMapping(value = "/personInfo", method = RequestMethod.POST)
     public Result personInfo(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
         String token = request.getHeader("token");
+        Page page = new Page();
+        page.setCurrent(1);
+        page.setSize(1);
         UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
-        List list = userService.selectUserList(user);
+        List list = userService.selectUserList(page, user);
         return  Result.success(list.get(0));
     }
 

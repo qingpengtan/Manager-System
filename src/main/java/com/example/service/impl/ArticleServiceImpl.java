@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
@@ -25,8 +26,8 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
     @Autowired
     UserServiceImpl userService;
 
-    public List selectArticleList(Article article,UserAccount userAccount) {
-        return articleDao.selectArticleList(article,userAccount);
+    public List selectArticleList(Page page, Article article, UserAccount userAccount) {
+        return articleDao.selectArticleList(page,article,userAccount);
     }
 
     public List classify(String param) {

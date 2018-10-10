@@ -1,6 +1,7 @@
 package com.example.controller.system;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.Result;
@@ -9,6 +10,7 @@ import com.example.entity.UserAccount;
 import com.example.service.ArticleService;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.UserServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -32,8 +35,20 @@ public class ArticleControl {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
-        List articleList = articleService.selectArticleList(article,userAccount);
-        return  Result.success(articleList);
+        String pageN= request.getParameter("page");
+        if(StringUtils.isEmpty(pageN)){
+            pageN = "1";
+        }
+        Page page = new Page();
+        page.setCurrent(Integer.parseInt(pageN));
+        page.setSize(10);
+        List articleList = articleService.selectArticleList(page,article,userAccount);
+        page.setRecords(articleList);
+        HashMap map = new HashMap();
+        map.put("totalPage",page.getPages());
+        map.put("current",page.getCurrent());
+        map.put("articleList",page.getRecords());
+        return  Result.success(map);
     }
 
 
