@@ -13,7 +13,9 @@ import java.util.Map;
 @Repository
 public interface ArticleDao extends BaseMapper<Article> {
 
-	List<Map<String,Object>> selectArticleList(Page page, @Param("article") Article article, @Param("user")UserAccount userAccount);
+	List<Map<String,Object>> selectArticleList(Page page, @Param("article") Article article,
+											   @Param("user") UserAccount userAccount,
+											   @Param("detail")  String detail);
 
 
 

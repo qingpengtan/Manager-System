@@ -7,7 +7,6 @@ import com.example.config.redis.UserKey;
 import com.example.config.util.Result;
 import com.example.entity.Article;
 import com.example.entity.UserAccount;
-import com.example.service.ArticleService;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.UserServiceImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +41,7 @@ public class ArticleControl {
         Page page = new Page();
         page.setCurrent(Integer.parseInt(pageN));
         page.setSize(10);
-        List articleList = articleService.selectArticleList(page,article,userAccount);
+        List articleList = articleService.selectArticleList(page,article,userAccount, null);
         page.setRecords(articleList);
         HashMap map = new HashMap();
         map.put("totalPage",page.getPages());

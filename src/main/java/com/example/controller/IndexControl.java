@@ -3,7 +3,6 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
@@ -59,7 +58,8 @@ public class IndexControl {
             articleService.insert(article);
         }
         else {
-            if(user.getUserUuid() != article.getUserId()){
+            Article tempArticle = articleService.selectById(article.getArticleId());
+            if(user.getUserUuid() != tempArticle.getUserId()){
                 throw new GlobalException(CodeMsg.NO_PERMISSION_EDITOR);
             }
             articleService.insertOrUpdate(article);
@@ -70,7 +70,7 @@ public class IndexControl {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public Result List(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
+    public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
         String pageN= request.getParameter("page");
         if(StringUtils.isEmpty(pageN)){
             pageN = "1";
@@ -78,7 +78,9 @@ public class IndexControl {
         Page page = new Page();
         page.setCurrent(Integer.parseInt(pageN));
         page.setSize(10);
-        List articleList = articleService.selectArticleList(page,article,userAccount);
+        String token = request.getHeader("token");
+        UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
+        List articleList = articleService.selectArticleList(page,article,userAccount, null);
         page.setRecords(articleList);
         HashMap map = new HashMap();
         map.put("totalPage",page.getPages());
@@ -92,7 +94,8 @@ public class IndexControl {
         Page page = new Page();
         page.setCurrent(1);
         page.setSize(1);
-        List articleList = articleService.selectArticleList(page,article,userAccount);
+        String detial = "detail";
+        List articleList = articleService.selectArticleList(page,article,userAccount,detial);
         return  Result.success(articleList.get(0));
     }
 

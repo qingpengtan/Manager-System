@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.dao.ArticleDao;
-import com.example.dao.UserDao;
 import com.example.entity.Article;
 import com.example.entity.UserAccount;
 import com.example.service.ArticleService;
-import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +24,8 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
     @Autowired
     UserServiceImpl userService;
 
-    public List selectArticleList(Page page, Article article, UserAccount userAccount) {
-        return articleDao.selectArticleList(page,article,userAccount);
+    public List selectArticleList(Page page, Article article, UserAccount userAccount, String detial) {
+        return articleDao.selectArticleList(page,article,userAccount,detial);
     }
 
     public List classify(String param) {
