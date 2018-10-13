@@ -18,6 +18,7 @@ public class CodeMsg {
 	public static CodeMsg ACCOUNT_IS_EXIT = new CodeMsg(500216, "号码已被注册");
 	public static CodeMsg NO_PERMISSION = new CodeMsg(500217, "您暂无权限查看");
 	public static CodeMsg NO_PERMISSION_EDITOR = new CodeMsg(500218, "谢谢你对本文章的意见");
+	public static CodeMsg UPLOAD_FAIL = new CodeMsg(600100, "上传出问题啦");
 
 	private CodeMsg( ) {
 	}

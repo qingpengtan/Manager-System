@@ -50,28 +50,23 @@ public class UserControll {
 //        return Result.success("D:\\24.png");
 //    }
     public Result upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
-        // 获取文件存放路径
         String basePath = uploadProperties.getBasePath();
         String location = new Date().getTime() + "/";
-        // 判断文件夹是否存在，不存在则
-        File targetFile = new File(basePath +"yy.png");
+        File targetFile = new File(basePath +file.getOriginalFilename());
 //        if (!targetFile.exists()) {
 //            targetFile.mkdirs();
 //        }
-
-            String fileName = file.getOriginalFilename();
             try {
                 OutputStream outputStream = new FileOutputStream(targetFile);
 //        myfile.transferTo(file);
                 IOUtils.copy(file.getInputStream(), outputStream);
-
-                org.springframework.core.io.Resource resource =resourceLoader.getResource("file:" + Paths.get(uploadProperties.getBasePath() +"yy.png").toString());
-
-                return Result.success(resource.getFilename());
+//                org.springframework.core.io.Resource resource =resourceLoader.getResource("file:" + Paths.get(uploadProperties.getBasePath() +"yy.png").toString());
+//                return Result.success(resource.getFilename());
+                return Result.success("http://119.29.230.48/ROO/upload/image/"+file.getOriginalFilename());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return Result.error(CodeMsg.ACCOUNT_QUIT);
+            return Result.error(CodeMsg.UPLOAD_FAIL);
     }
 
 
