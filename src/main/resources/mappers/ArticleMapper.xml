@@ -49,6 +49,9 @@
     <if test="article.articleTagId !=null and article.articleTagId != ''">
       AND a.article_tag_id = #{article.articleTagId}
     </if>
+    <if test="article.articleTitle !=null and article.articleTitle != ''">
+      AND a.article_title LIKE CONCAT(CONCAT('%',  #{article.articleTitle}),'%')
+    </if>
     order by a.create_time desc
 
   </select>

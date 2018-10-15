@@ -87,6 +87,7 @@ public class IndexControl {
         List articleList = articleService.selectArticleList(page,article,userAccount, personInfo);
         page.setRecords(articleList);
         HashMap map = new HashMap();
+        map.put("totalSize",page.getTotal());
         map.put("totalPage",page.getPages());
         map.put("current",page.getCurrent());
         map.put("articleList",page.getRecords());
