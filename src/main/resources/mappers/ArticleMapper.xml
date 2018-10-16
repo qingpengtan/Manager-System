@@ -10,6 +10,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.entity.Article">
+    <result column="article_brief" jdbcType="LONGVARCHAR" property="articleBrief" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
 
@@ -22,7 +23,9 @@
     a.article_tag_id AS articleTag,
     u.user_name AS userName,
     u.user_phone AS userPhone,
+    u.user_pic as userPic,
     a.article_title AS articleTitle,
+    a.article_brief As articleBrief,
     at.article_tag as articleTagName,
     a.content,
     a. status,

@@ -68,7 +68,7 @@ public class UploadControl {
             String token = request.getHeader("token");
             UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
             UserAccount userAccount = userService.selectOne(new EntityWrapper<UserAccount>().eq("user_phone",user.getUserPhone()));
-//            userAccount.setUserPic(path);
+            userAccount.setUserPic(path);
             userService.updateById(userAccount);
             return  Result.success(path);
         } catch (Exception e) {

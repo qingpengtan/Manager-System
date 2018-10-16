@@ -14,6 +14,7 @@
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="user_tag" jdbcType="VARCHAR" property="userTag" />
+    <result column="user_pic" jdbcType="VARCHAR" property="userPic" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -41,6 +42,7 @@
     u.user_uuid AS userUuid,
     u.user_name AS userName,
     u.user_phone AS userPhone,
+    u.user_pic as userPic,
     u.role_id AS roleId,
     u.age,
     DATE_FORMAT(u.birthday, '%Y-%m-%d') AS birthday,

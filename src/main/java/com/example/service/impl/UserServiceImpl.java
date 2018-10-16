@@ -96,6 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		map.put("userName", userAccount.getUserName());
 		map.put("role", userAccount.getRoleId());
 		map.put("userPhone", userAccount.getUserPhone());
+		map.put("userPic",userAccount.getUserPic());
 		map.put("token",token);
 		return map;
 	}

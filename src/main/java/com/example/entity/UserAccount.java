@@ -40,6 +40,9 @@ public class UserAccount {
 
     private String address;
 
+    @TableField("user_pic")
+    private String userPic;
+
     @TableField("user_tag")
     private String userTag;
 
@@ -150,6 +153,14 @@ public class UserAccount {
 
     public Date getBirthday() {
         return birthday;
+    }
+
+    public String getUserPic() {
+        return userPic;
+    }
+
+    public void setUserPic(String userPic) {
+        this.userPic = userPic;
     }
 
     public void setBirthday(String birthday) {

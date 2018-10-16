@@ -19,12 +19,23 @@ public class Article {
     @TableField("article_title")
     private String articleTitle;
 
+    @TableField("article_brief")
+    private String articleBrief;
+
     private String content;
 
     private String status;
 
     @TableField("create_time")
     private Date createTime;
+
+    public String getArticleBrief() {
+        return articleBrief;
+    }
+
+    public void setArticleBrief(String articleBrief) {
+        this.articleBrief = articleBrief;
+    }
 
     public Integer getArticleId() {
         return articleId;
