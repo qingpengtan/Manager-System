@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,41 +35,6 @@ public class UserControll {
 
     @Autowired
     UserServiceImpl userService;
-
-    @Resource
-    private ResourceLoader resourceLoader;
-    @Resource
-    private UploadProperties uploadProperties;
-
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-//    public Result test(HttpServletRequest request,@RequestParam("img") MultipartFile myfil) throws IOException {
-////        String filePath = request.getSession().getServletContext().getRealPath("imgupload/");
-//        File file = new File("D:\\24.png");
-//        OutputStream outputStream = new FileOutputStream(file);
-////        myfile.transferTo(file);
-//        IOUtils.copy(myfil.getInputStream(),outputStream);
-//        return Result.success("D:\\24.png");
-//    }
-    public Result upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
-        String basePath = uploadProperties.getBasePath();
-        String location = new Date().getTime() + "/";
-        File targetFile = new File(basePath +file.getOriginalFilename());
-//        if (!targetFile.exists()) {
-//            targetFile.mkdirs();
-//        }
-            try {
-                OutputStream outputStream = new FileOutputStream(targetFile);
-//        myfile.transferTo(file);
-                IOUtils.copy(file.getInputStream(), outputStream);
-//                org.springframework.core.io.Resource resource =resourceLoader.getResource("file:" + Paths.get(uploadProperties.getBasePath() +"yy.png").toString());
-//                return Result.success(resource.getFilename());
-                return Result.success("http://119.29.230.48/ROO/upload/image/"+file.getOriginalFilename());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return Result.error(CodeMsg.UPLOAD_FAIL);
-    }
-
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
