@@ -28,6 +28,7 @@
 	role_id AS roleId,
 	user_phone AS userPhone,
 	user_name AS userNme,
+	user_pic as userPic,
 	status
     FROM
 	user_account

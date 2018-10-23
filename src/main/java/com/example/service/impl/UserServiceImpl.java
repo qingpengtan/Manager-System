@@ -47,6 +47,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
         userAccount.setSalt(salt);
         String password = userAccount.getPassword()+salt;
         userAccount.setStatus("1000");
+        userAccount.setUserPic("http://119.29.230.48/ROO/upload/image/tomcat.gif");
         userAccount.setPassword(MD5Util.md5(MD5Util.md5(password)));
 	    this.insert(userAccount);
 		return userAccount;

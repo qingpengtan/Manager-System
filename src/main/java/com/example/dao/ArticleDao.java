@@ -7,6 +7,7 @@ import com.example.entity.UserAccount;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +23,6 @@ public interface ArticleDao extends BaseMapper<Article> {
 	List<Map<String,Object>> classify(@Param("exclude")String param);
 
 
-
+    HashMap<String,Object> articleDetail( @Param("article") Article article,
+						   @Param("user") UserAccount userAccount);
 }

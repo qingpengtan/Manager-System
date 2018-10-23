@@ -64,6 +64,9 @@ public class UserControll {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
+        if(StringUtils.isEmpty(userAccount.getUserPic())){
+            userAccount.setUserPic("http://119.29.230.48/ROO/upload/image/tomcat.gif");
+        }
         userService.save(userAccount);
         return Result.success(null);
     }

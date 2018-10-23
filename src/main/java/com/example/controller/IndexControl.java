@@ -96,11 +96,8 @@ public class IndexControl {
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     public Result detail(HttpServletRequest request, HttpServletResponse response, Article article,UserAccount userAccount) {
-        Page page = new Page();
-        page.setCurrent(1);
-        page.setSize(1);
-        List articleList = articleService.selectArticleList(page,article,userAccount,null);
-        return  Result.success(articleList.get(0));
+        HashMap map = articleService.articleDetail(article,userAccount);
+        return  Result.success(map);
     }
 
     @RequestMapping(value = "/classify", method = RequestMethod.POST)
