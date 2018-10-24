@@ -75,4 +75,11 @@ public class ArticleControl {
         articleService.deleteById(Integer.parseInt(id));
         return  Result.success(null);
     }
+
+
+    @RequestMapping(value = "/detail", method = RequestMethod.POST)
+    public Result detail(HttpServletRequest request, Article article, HttpServletResponse response) {
+        Article article1 = articleService.selectById(article.getArticleId());
+        return  Result.success(article1);
+    }
 }

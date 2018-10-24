@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
 			String msg = error.getDefaultMessage();
 			return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));
 		}else {
-			return Result.error(new CodeMsg(500100,"服务端出异常啦<br>"+e.getMessage()));
+			return Result.error(new CodeMsg(500100,"服务器出错啦"));
 		}
 	}
 }
