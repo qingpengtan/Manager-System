@@ -48,23 +48,22 @@ public class UploadControl {
 
     @RequestMapping(value = "/image", method = RequestMethod.POST)
     public Result upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
-        String basePath = uploadProperties.getBasePath();
-        String imgNames = request.getParameter("imgeFileName");
+        String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
         try {
-            String path = UploadImgUtils.UploadImg(basePath,file,imgNames);
+            String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_IMAGE);
             return  Result.success(path);
         } catch (Exception e) {
             e.printStackTrace();
+            return Result.error(CodeMsg.UPLOAD_FAIL);
         }
-        return Result.error(CodeMsg.UPLOAD_FAIL);
     }
 
     @RequestMapping(value = "/uploadAvater", method = RequestMethod.POST)
     public Result uploadAvater(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
-        String basePath = uploadProperties.getBasePath();
+        String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
         String imgNames = request.getParameter("imgeFileName");
         try {
-            String path = UploadImgUtils.UploadImg(basePath,file,imgNames);
+            String path = UploadImgUtils.UploadImg(basePath,file,imgNames,UploadProperties.FILE_TYPE_IMAGE);
             String token = request.getHeader("token");
             UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
             UserAccount userAccount = userService.selectOne(new EntityWrapper<UserAccount>().eq("user_phone",user.getUserPhone()));
@@ -73,8 +72,20 @@ public class UploadControl {
             return  Result.success(path);
         } catch (Exception e) {
             e.printStackTrace();
+            return Result.error(CodeMsg.UPLOAD_FAIL);
         }
-        return Result.error(CodeMsg.UPLOAD_FAIL);
+    }
+
+    @RequestMapping(value = "/mp3", method = RequestMethod.POST)
+    public Result uploadMusic(@RequestParam("mp3") MultipartFile file, HttpServletRequest request) {
+        String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_AUDIO);
+        try {
+            String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
+            return  Result.success(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error(CodeMsg.UPLOAD_FAIL);
+        }
     }
 
 
@@ -82,7 +93,7 @@ public class UploadControl {
 
     @RequestMapping(value = "/baseImg", method = RequestMethod.POST)
     public Result upload( HttpServletRequest request) {
-        String basePath = uploadProperties.getBasePath();
+        String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
         String img = request.getParameter("baseImg");
         int size = imageSize(img);
         if(size > 500000){
@@ -112,8 +123,8 @@ public class UploadControl {
             return Result.success("http://119.29.230.48/ROO/upload/image/" + imgName + imgName);
         } catch (Exception e) {
             e.printStackTrace();
+            return Result.error(CodeMsg.UPLOAD_FAIL);
         }
-        return Result.error(CodeMsg.UPLOAD_FAIL);
     }
 
 
