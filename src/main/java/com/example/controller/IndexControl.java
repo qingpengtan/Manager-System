@@ -10,6 +10,7 @@ import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
 import com.example.entity.Article;
 import com.example.entity.UserAccount;
+import com.example.service.MusicService;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.UserServiceImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +39,8 @@ public class IndexControl {
     UserServiceImpl userService;
     @Autowired
     RedisService redisService;
+    @Autowired
+    MusicService musicService;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(HttpServletRequest request, HttpServletResponse response, Article article) {
@@ -112,5 +115,11 @@ public class IndexControl {
         String param = request.getParameter("userPhone");
         Boolean flag = articleService.isEdit(request,param);
         return  Result.success(flag);
+    }
+
+    @RequestMapping(value = "/music", method = RequestMethod.POST)
+    public Result Music(HttpServletRequest request, HttpServletResponse response) {
+        List list = musicService.selectList(new EntityWrapper<>());
+        return  Result.success(list);
     }
 }

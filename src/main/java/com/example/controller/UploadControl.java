@@ -9,7 +9,9 @@ import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
 import com.example.config.util.UploadImgUtils;
 import com.example.controller.system.UserControll;
+import com.example.entity.Music;
 import com.example.entity.UserAccount;
+import com.example.service.MusicService;
 import com.example.service.impl.UserServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -46,6 +48,9 @@ public class UploadControl {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private MusicService musicService;
+
     @RequestMapping(value = "/image", method = RequestMethod.POST)
     public Result upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
         String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
@@ -81,6 +86,16 @@ public class UploadControl {
         String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_AUDIO);
         try {
             String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
+            String musicName = file.getOriginalFilename();
+            String token = request.getHeader("token");
+            UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
+            Music music = new Music();
+            music.setCreateTime(new Date());
+            music.setStatus("2000");
+            music.setMusicName(musicName);
+            music.setMusicUrl(path);
+            music.setUserPhone(user.getUserPhone());
+            musicService.insert(music);
             return  Result.success(path);
         } catch (Exception e) {
             e.printStackTrace();

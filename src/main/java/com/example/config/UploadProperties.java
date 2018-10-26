@@ -56,7 +56,7 @@ public class UploadProperties {
             location = this.getLocaltion().get("windows");
         } else {
             if(fileType.equals(UploadProperties.FILE_TYPE_AUDIO)){
-                location = this.getLocaltion().get(" linux-audio");
+                location = this.getLocaltion().get("linux-audio");
             }else if(fileType.equals(UploadProperties.FILE_TYPE_VDIEO)){
                 location = this.getLocaltion().get("linux-video");
             }else  {

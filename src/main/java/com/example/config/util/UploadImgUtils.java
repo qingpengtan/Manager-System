@@ -25,6 +25,8 @@ public class UploadImgUtils {
             suffix = imgNames;
         }
         suffix = suffix.replace("-", "");
+        suffix = suffix.replace("%", "");
+        suffix = suffix.replace(" ", "");
         File dir = new File(basePath);
         File targetFile = new File(basePath + imgName + suffix);
         if (!dir.exists()) {

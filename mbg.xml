@@ -46,8 +46,8 @@
         </javaClientGenerator> 
         
         <!-- 配置表信息 -->      
-        <table tableName="article"
-            domainObjectName="Article" enableCountByExample="false">
+        <table tableName="music"
+            domainObjectName="Music" enableCountByExample="false">
         </table>
     </context>
       

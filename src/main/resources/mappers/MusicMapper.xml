@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.MusicDao">
+  <resultMap id="BaseResultMap" type="com.example.entity.Music">
+    <id column="music_id" jdbcType="INTEGER" property="musicId" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="music_name" jdbcType="VARCHAR" property="musicName" />
+    <result column="music_author" jdbcType="VARCHAR" property="musicAuthor" />
+    <result column="music_pic" jdbcType="VARCHAR" property="musicPic" />
+    <result column="music_url" jdbcType="VARCHAR" property="musicUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.entity.Music">
+    <result column="music_lrc" jdbcType="LONGVARCHAR" property="musicLrc" />
+  </resultMap>
+
+
+
+</mapper>
