@@ -8,11 +8,13 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.servlet.MultipartConfigElement;
 
 @MapperScan("com.example.dao")
 @SpringBootApplication
+//@EnableTransactionManagement//开启事务管理
 //@Configuration
 public class MainApplication extends SpringBootServletInitializer {
 

@@ -87,7 +87,7 @@ public class UploadControl {
         try {
             String token = request.getHeader("token");
             UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
-            if( user.getRoleId()  != 3  && user.getUserUuid() != 16){
+            if( user.getRoleId()  != 3  && !user.getUserPhone().equals("17689905647")){
                 return Result.error(CodeMsg.UPLOAD_MUSIC_FAIL);
             }
             String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
