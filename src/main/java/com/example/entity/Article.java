@@ -22,12 +22,22 @@ public class Article {
     @TableField("article_brief")
     private String articleBrief;
 
+    @TableField("index_pic")
+    private String indexPic;
+
+    @TableField("music_url")
+    private String musicUrl;
+
     private String content;
 
     private String status;
 
     @TableField("create_time")
     private Date createTime;
+
+    @TableField("update_time")
+    private Date updateTime;
+
 
     public String getArticleBrief() {
         return articleBrief;
@@ -91,5 +101,29 @@ public class Article {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getIndexPic() {
+        return indexPic;
+    }
+
+    public void setIndexPic(String indexPic) {
+        this.indexPic = indexPic;
+    }
+
+    public String getMusicUrl() {
+        return musicUrl;
+    }
+
+    public void setMusicUrl(String musicUrl) {
+        this.musicUrl = musicUrl;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

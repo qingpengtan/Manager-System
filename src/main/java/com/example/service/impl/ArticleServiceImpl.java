@@ -45,4 +45,8 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
     public HashMap articleDetail(Article article, UserAccount userAccount) {
         return articleDao.articleDetail(article,userAccount);
     }
+
+    public List recentArticle(UserAccount userAccount) {
+        return articleDao.recentArticle(userAccount);
+    }
 }

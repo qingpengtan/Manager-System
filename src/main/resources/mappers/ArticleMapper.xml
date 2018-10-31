@@ -6,8 +6,11 @@
     <result column="article_tag_id" jdbcType="INTEGER" property="articleTagId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
+    <result column="index_pic" jdbcType="VARCHAR" property="indexPic" />
+    <result column="music_url" jdbcType="VARCHAR" property="musicUrl" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.entity.Article">
     <result column="article_brief" jdbcType="LONGVARCHAR" property="articleBrief" />
@@ -90,6 +93,24 @@
     LEFT JOIN article_tag at on a.article_tag_id = at.article_tag_id
     WHERE a.status != '2000'
       AND a.article_id = #{article.articleId}
+
+  </select>
+
+
+  <select id="recentArticle" parameterType="com.example.entity.Article" resultType="Map">
+    SELECT
+    a.article_id AS articleId,
+    a.article_title AS articleTitle
+    FROM
+    article a
+    LEFT JOIN user_account u ON a.user_id = u.user_uuid
+    where  a.article_tag_id !=1
+    <if test="user.userPhone !=null and user.userPhone != ''">
+      AND u.user_phone = #{user.userPhone}
+    </if>
+    order by a.update_time desc
+    LIMIT 0,
+    10
 
   </select>
 

@@ -85,10 +85,13 @@ public class UploadControl {
     public Result uploadMusic(@RequestParam("mp3") MultipartFile file, HttpServletRequest request) {
         String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_AUDIO);
         try {
-            String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
-            String musicName = file.getOriginalFilename();
             String token = request.getHeader("token");
             UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
+            if( user.getRoleId()  != 3  && user.getUserUuid() != 16){
+                return Result.error(CodeMsg.UPLOAD_MUSIC_FAIL);
+            }
+            String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
+            String musicName = file.getOriginalFilename();
             Music music = new Music();
             music.setCreateTime(new Date());
             music.setStatus("2000");

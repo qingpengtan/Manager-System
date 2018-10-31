@@ -25,4 +25,6 @@ public interface ArticleDao extends BaseMapper<Article> {
 
     HashMap<String,Object> articleDetail( @Param("article") Article article,
 						   @Param("user") UserAccount userAccount);
+
+    List recentArticle(@Param("user")UserAccount userAccount);
 }

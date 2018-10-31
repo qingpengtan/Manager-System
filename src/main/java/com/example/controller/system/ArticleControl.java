@@ -56,6 +56,7 @@ public class ArticleControl {
     public Result save(HttpServletRequest request, HttpServletResponse response, Article article) {
         String token = request.getHeader("token");
         UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
+        article.setUpdateTime(new Date());
         if(article.getArticleId() == null){
             article.setCreateTime(new Date());
             UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()

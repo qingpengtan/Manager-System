@@ -9,6 +9,7 @@ import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
 import com.example.entity.Article;
+import com.example.entity.Music;
 import com.example.entity.UserAccount;
 import com.example.service.MusicService;
 import com.example.service.impl.ArticleServiceImpl;
@@ -48,6 +49,7 @@ public class IndexControl {
         UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
         UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
                 .eq("user_phone",userAccount.getUserPhone()));
+        article.setUpdateTime(new Date());
         if(article.getArticleId() == null){
             if(article.getArticleTagId() == null){
                 article.setArticleTagId(1);
@@ -119,7 +121,13 @@ public class IndexControl {
 
     @RequestMapping(value = "/music", method = RequestMethod.POST)
     public Result Music(HttpServletRequest request, HttpServletResponse response) {
-        List list = musicService.selectList(new EntityWrapper<>());
+        List list = musicService.selectList(new EntityWrapper<Music>().orderBy("create_time",false));
+        return  Result.success(list);
+    }
+
+    @RequestMapping(value = "/recentArticle", method = RequestMethod.POST)
+    public Result recentArticle(HttpServletRequest request, HttpServletResponse response,UserAccount userAccount) {
+        List list = articleService.recentArticle(userAccount);
         return  Result.success(list);
     }
 }

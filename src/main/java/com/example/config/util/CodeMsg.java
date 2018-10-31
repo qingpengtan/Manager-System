@@ -19,6 +19,7 @@ public class CodeMsg {
 	public static CodeMsg NO_PERMISSION = new CodeMsg(500217, "您暂无权限查看");
 	public static CodeMsg NO_PERMISSION_EDITOR = new CodeMsg(500218, "谢谢你对本文章的意见");
 	public static CodeMsg UPLOAD_FAIL = new CodeMsg(600100, "文件太大了，上传失败啦");
+	public static CodeMsg UPLOAD_MUSIC_FAIL = new CodeMsg(600101, "您暂无权限上传音乐文件");
 
 	private CodeMsg( ) {
 	}
