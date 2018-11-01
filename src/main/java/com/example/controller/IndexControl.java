@@ -3,6 +3,7 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.example.config.Permission;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
@@ -75,6 +76,7 @@ public class IndexControl {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
+//    @Permission
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
         String pageN= request.getParameter("page");
         if(StringUtils.isEmpty(pageN)){

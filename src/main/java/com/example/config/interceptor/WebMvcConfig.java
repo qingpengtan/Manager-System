@@ -29,10 +29,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
+//		拦截是否登录
 		registry.addInterceptor(miniInterceptor()).addPathPatterns("/sys/**","/user/**","/index/**")
 												  .excludePathPatterns("/sys/user/login","/sys/user/test")
 												  .excludePathPatterns("/user/login","/user/regist","/user/verifiCode");
 
+		//拦截是否管理员
 		registry.addInterceptor(systemInterceptor()).addPathPatterns("/sys/**")
 				.excludePathPatterns("/sys/user/login","/sys/user/test");
 

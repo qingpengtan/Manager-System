@@ -1,5 +1,6 @@
 package com.example.config.interceptor;
 
+import com.example.config.Permission;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
@@ -7,11 +8,13 @@ import com.example.config.util.CodeMsg;
 import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 public class SystemInterceptor implements HandlerInterceptor {
 
@@ -28,6 +31,12 @@ public class SystemInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object arg2) throws Exception {
 
+//        HandlerMethod handlerMethod = (HandlerMethod) arg2;
+//        Method method = handlerMethod.getMethod();
+//        Permission permission = method.getAnnotation(Permission.class);
+//        if(permission != null){
+//
+//        }
 
         String token = request.getHeader("token");
         UserAccount userAccount = redis.get(UserKey.token, token, UserAccount.class);

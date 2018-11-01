@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Iterator;
+import java.util.Set;
+
 @Service
 public class RedisService {
 	
@@ -67,6 +70,31 @@ public class RedisService {
 		 }finally {
 			  returnToPool(jedis);
 		 }
+	}
+
+	/**
+	 * 删除已存在的用户key，避免同个用户含有多个key
+	 * */
+	public <T> boolean delUser(T value,	Class<T> clazz) {
+		Jedis jedis = null;
+		try {
+			jedis =  jedisPool.getResource();
+			Set<String> set = jedis.keys("*");
+			if (set.size() != 0) {
+				Iterator<String> it = set.iterator();
+
+				while (it.hasNext()) {
+					String key = it.next();
+					String val = jedis.get(key);
+					T t =  stringToBean(val, clazz);
+					// value 和 t的判断
+//					jedis.del(key);
+				}
+			}
+			return  true;
+		}finally {
+			returnToPool(jedis);
+		}
 	}
 	
 	/**
