@@ -7,14 +7,11 @@ import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
-import com.example.config.util.UploadImgUtils;
-import com.example.controller.system.UserControll;
+import com.example.config.util.FileOperateUtils;
 import com.example.entity.Music;
 import com.example.entity.UserAccount;
 import com.example.service.MusicService;
 import com.example.service.impl.UserServiceImpl;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +52,7 @@ public class UploadControl {
     public Result upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
         String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
         try {
-            String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_IMAGE);
+            String path = FileOperateUtils.UploadFile(basePath,file,null,UploadProperties.FILE_TYPE_IMAGE);
             return  Result.success(path);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +65,7 @@ public class UploadControl {
         String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
         String imgNames = request.getParameter("imgeFileName");
         try {
-            String path = UploadImgUtils.UploadImg(basePath,file,imgNames,UploadProperties.FILE_TYPE_IMAGE);
+            String path = FileOperateUtils.UploadFile(basePath,file,imgNames,UploadProperties.FILE_TYPE_IMAGE);
             String token = request.getHeader("token");
             UserAccount user = redisService.get(UserKey.token, token, UserAccount.class);
             UserAccount userAccount = userService.selectOne(new EntityWrapper<UserAccount>().eq("user_phone",user.getUserPhone()));
@@ -90,7 +87,7 @@ public class UploadControl {
             if( user.getRoleId()  != 3  && !user.getUserPhone().equals("17689905647")){
                 return Result.error(CodeMsg.UPLOAD_MUSIC_FAIL);
             }
-            String path = UploadImgUtils.UploadImg(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
+            String path = FileOperateUtils.UploadFile(basePath,file,null,UploadProperties.FILE_TYPE_AUDIO);
             String musicName = file.getOriginalFilename();
             Music music = new Music();
             music.setCreateTime(new Date());

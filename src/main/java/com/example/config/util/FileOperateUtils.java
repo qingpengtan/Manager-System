@@ -1,18 +1,17 @@
 package com.example.config.util;
 
 import com.example.config.exception.GlobalException;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.*;
 
-public class UploadImgUtils {
+public class FileOperateUtils {
 
-    public static String UploadImg(String basePath, MultipartFile file,String imgNames,String fileType) throws Exception{
+    public static String UploadFile(String basePath, MultipartFile file, String imgNames, String fileType) throws Exception{
         Calendar calendar = Calendar.getInstance();
         String year = calendar.get(Calendar.YEAR)+"";
         String month = (calendar.get(Calendar.MONTH)+1)+"";
@@ -20,9 +19,8 @@ public class UploadImgUtils {
 
         String imgName =  year+month+date + "&" + UUIDUtil.uuid();
         String contentType = file.getContentType();
-        String suffix = UploadImgUtils.fileType(contentType);
+        String suffix = FileOperateUtils.fileType(contentType);
 //        String suffix = file.getOriginalFilename();
-
 //        if(!StringUtils.isEmpty(imgNames)){
 //            suffix = imgNames;
 //        }
@@ -35,16 +33,21 @@ public class UploadImgUtils {
             dir.mkdirs();
         }
         OutputStream outputStream = new FileOutputStream(targetFile);
-        //        myfile.transferTo(file);
         IOUtils.copy(file.getInputStream(), outputStream);
-
+//        myfile.transferTo(file);
+//        byte b[] = new byte[1024];
+//        int n;
+//        while(( n =file.getInputStream().read(b)) != -1){
+//            outputStream.write(b, 0, n);
+//        }
+//        outputStream.close();
         return "http://119.29.230.48/ROO/upload/"+fileType+"/" + imgName + suffix;
     }
 
 
     public static String fileType(String type){
         HashMap<String,String> typeMap = new HashMap<String, String>();
-        typeMap.put("video/mpeg",".mp3");
+        typeMap.put("audio/mp3",".mp3");
         typeMap.put("image/jpeg",".jpg");
         typeMap.put("image/png",".png");
         typeMap.put("image/gif",".gif");
@@ -57,5 +60,25 @@ public class UploadImgUtils {
             }
         }
         throw new GlobalException(CodeMsg.UPLOAD_FAIL);
+    }
+
+//    下载文件
+    public static void Dowmload(HttpServletResponse resp, String basePath, String fileName) throws Exception{
+
+        File targetFile = new File(basePath + fileName);
+//        targetFile.delete();
+        resp.setContentType("application/x-msdownload");
+        //设置头信息
+        resp.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
+        InputStream inputStream = new FileInputStream(targetFile);
+        ServletOutputStream ouputStream = resp.getOutputStream();
+        byte b[] = new byte[1024];
+        int n ;
+        while((n = inputStream.read(b)) != -1){
+            ouputStream.write(b,0,n);
+        }
+        //关闭流、释放资源
+        ouputStream.close();
+        inputStream.close();
     }
 }
