@@ -15,6 +15,7 @@ import com.example.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import sun.misc.BASE64Decoder;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -103,6 +105,17 @@ public class UploadControl {
         }
     }
 
+
+    @RequestMapping(value = "/download", method = RequestMethod.POST)
+    public void download(HttpServletRequest request, HttpServletResponse response) {
+        String fileName = request.getParameter("fileName");
+        String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_AUDIO);
+        try {
+            FileOperateUtils.Dowmload(response,basePath,fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

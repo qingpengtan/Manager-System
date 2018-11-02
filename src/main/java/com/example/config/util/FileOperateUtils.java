@@ -67,18 +67,21 @@ public class FileOperateUtils {
 
         File targetFile = new File(basePath + fileName);
 //        targetFile.delete();
-        resp.setContentType("application/x-msdownload");
+        resp.setContentType("application/x-download");
         //设置头信息
         resp.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
         InputStream inputStream = new FileInputStream(targetFile);
-        ServletOutputStream ouputStream = resp.getOutputStream();
-        byte b[] = new byte[1024];
-        int n ;
-        while((n = inputStream.read(b)) != -1){
-            ouputStream.write(b,0,n);
-        }
-        //关闭流、释放资源
-        ouputStream.close();
-        inputStream.close();
+        OutputStream outputStream = resp.getOutputStream();
+        IOUtils.copy(inputStream, outputStream);
+        outputStream.flush();
+
+//        byte b[] = new byte[1024];
+//        int n ;
+//        while((n = inputStream.read(b)) != -1){
+//            outputStream.write(b,0,n);
+//        }
+//        //关闭流、释放资源
+//        outputStream.close();
+//        inputStream.close();
     }
 }

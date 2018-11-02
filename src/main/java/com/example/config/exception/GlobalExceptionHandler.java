@@ -2,6 +2,9 @@ package com.example.config.exception;
 
 import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
+import com.example.controller.IndexControl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +17,8 @@ import java.util.List;
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
+
+	private final static Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(value=Exception.class)
 	public Result<String> exceptionHandler(HttpServletRequest request, Exception e){
@@ -28,6 +33,7 @@ public class GlobalExceptionHandler {
 			String msg = error.getDefaultMessage();
 			return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));
 		}else {
+			log.error(e.getMessage());
 			return Result.error(new CodeMsg(500100,"服务器出错啦"));
 		}
 	}
