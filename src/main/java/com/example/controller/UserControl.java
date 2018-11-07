@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
@@ -8,6 +10,7 @@ import com.example.config.util.Result;
 import com.example.config.util.VerifiCode;
 import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
+import com.example.vo.UpdateUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,18 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-
-/*
-    参数怎么作为对象接收（无）
-    参数怎么校验（不合理）
-    登陆拦截（不合理）
- */
 @RestController
 @RequestMapping("/user")
 public class UserControl {
@@ -90,9 +90,31 @@ public class UserControl {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Result save(HttpServletRequest request, HttpServletResponse response, UserAccount userAccount) {
+    public Result save(HttpServletRequest request, HttpServletResponse response, @Valid UpdateUserVo userVo) {
+        String token = request.getHeader("token");
+        UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
 
-        userService.insertOrUpdate(userAccount);
+        UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>().eq("user_phone",userAccount.getUserPhone()));
+        user.setUserName(userVo.getUserName());
+        user.setUserTag(userVo.getUserTag());
+        user.setAddress(userVo.getAddress());
+        user.setProvince(userVo.getProvince());
+        user.setCity(userVo.getCity());
+        user.setSex(userVo.getSex());
+        user.setBirthday(userVo.getBirthday());
+        if(user.getBirthday() != null){
+            Calendar startDate = Calendar.getInstance();
+            Calendar endDate = Calendar.getInstance();
+            startDate.setTime(user.getBirthday());
+            endDate.setTime(new Date());
+            int age = (endDate.get(Calendar.YEAR) - startDate.get(Calendar.YEAR));
+            if(age <= 0 || age > 120){
+                throw new GlobalException(CodeMsg.UNLEAGEL_BIRTHDAY);
+            }
+            user.setAge(age);
+        }
+
+        userService.insertOrUpdate(user);
 
         return  Result.success(null);
     }

@@ -21,6 +21,7 @@ public class CodeMsg {
 	public static CodeMsg UPLOAD_FAIL = new CodeMsg(600100, "文件上传失败");
 	public static CodeMsg DOWNLOAD_FAIL = new CodeMsg(600200, "文件下载失败");
 	public static CodeMsg UPLOAD_MUSIC_FAIL = new CodeMsg(600101, "您暂无权限上传音乐文件");
+	public static CodeMsg UNLEAGEL_BIRTHDAY = new CodeMsg(700101, "无效的出生日期");
 
 	private CodeMsg( ) {
 	}
