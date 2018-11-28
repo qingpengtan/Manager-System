@@ -67,8 +67,9 @@
     WHERE
     1 = 1
     <if test="exclude !=null and exclude != ''">
-      AND article_tag != '心情日志'
+      AND is_tag != 'untag'
     </if>
+    order by sort
   </select>
 
 
