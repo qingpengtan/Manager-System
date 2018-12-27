@@ -28,6 +28,9 @@ public class Article {
     @TableField("music_url")
     private String musicUrl;
 
+    @TableField("is_stick")
+    private String isStick;
+
     private String content;
 
     private String status;
@@ -125,5 +128,13 @@ public class Article {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getIsStick() {
+        return isStick;
+    }
+
+    public void setIsStick(String isStick) {
+        this.isStick = isStick;
     }
 }

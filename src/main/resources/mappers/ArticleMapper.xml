@@ -9,6 +9,7 @@
     <result column="index_pic" jdbcType="VARCHAR" property="indexPic" />
     <result column="music_url" jdbcType="VARCHAR" property="musicUrl" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_stick" jdbcType="VARCHAR" property="isStick" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -29,6 +30,7 @@
     u.user_pic as userPic,
     a.article_title AS articleTitle,
     a.article_brief As articleBrief,
+    a.is_stick as isStick,
     at.article_tag as articleTagName,
     a. status,
     DATE_FORMAT(
@@ -54,7 +56,7 @@
     <if test="article.articleTitle !=null and article.articleTitle != ''">
       AND a.article_title LIKE CONCAT(CONCAT('%',  #{article.articleTitle}),'%')
     </if>
-    order by a.create_time desc
+    order by a.is_stick desc, a.create_time desc
 
   </select>
 

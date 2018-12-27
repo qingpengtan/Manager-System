@@ -20,7 +20,7 @@ public class Result<T> {
 		return new Result<T>(codeMsg);
 	}
 
-	private Result(T data) {
+	private  Result(T data) {
 		this.code = 1;
 		this.msg = "success";
 		this.data = data;
