@@ -15,10 +15,12 @@ import com.example.entity.UserAccount;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Service
@@ -71,7 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		return userAccount;
 	}
 
-	public Map login(HttpServletRequest request, HttpServletResponse response, UserAccount userAccountParm) {
+	public Map login(HttpServletRequest request, HttpServletResponse response, UserAccount userAccountParm)  {
 		//判断手机号是否存在
 		UserAccount userAccount = userDao.checkUser(userAccountParm);
 		if(userAccount == null) {
@@ -90,6 +92,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		}
 		//生成cookie
 		String token = UUIDUtil.uuid();
+//		String tempToken = token;
+		BASE64Encoder encoder = new BASE64Encoder();
+		try {
+			token = encoder.encode(token.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 //		addCookie(response, token, userAccount);
 //		request.getSession().setAttribute("token",token);
 		redisService.set(UserKey.token, token, userAccount);

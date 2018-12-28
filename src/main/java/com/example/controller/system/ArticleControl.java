@@ -59,7 +59,7 @@ public class ArticleControl {
         article.setUpdateTime(new Date());
         if(article.getArticleId() == null){
             article.setCreateTime(new Date());
-            if("".equals(article.getIsStick())){
+            if(StringUtils.isEmpty(article.getIsStick())){
                 article.setIsStick("1000");
             }
             UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()

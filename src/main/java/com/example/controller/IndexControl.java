@@ -56,6 +56,9 @@ public class IndexControl {
             if(article.getArticleTagId() == null){
                 article.setArticleTagId(1);
             }
+            if(StringUtils.isEmpty(article.getIsStick())){
+                article.setIsStick("1000");
+            }
             article.setStatus("1000");
             article.setCreateTime(new Date());
             if(StringUtils.isEmpty(article.getArticleTitle())){
