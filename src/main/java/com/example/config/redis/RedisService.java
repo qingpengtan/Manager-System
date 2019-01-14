@@ -96,6 +96,21 @@ public class RedisService {
 			returnToPool(jedis);
 		}
 	}
+
+	/**
+	 * 删除用户key
+	 * */
+	public <T> boolean delK(String key) {
+		Jedis jedis = null;
+		try {
+			jedis =  jedisPool.getResource();
+			jedis.del(key);
+			return  true;
+		}finally {
+			returnToPool(jedis);
+		}
+	}
+
 	
 	/**
 	 * 增加值

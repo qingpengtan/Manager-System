@@ -38,7 +38,11 @@ public class MiniInterceptor implements HandlerInterceptor {
 
 		if (userAccount == null)
 			throw new GlobalException(CodeMsg.ACCOUNT_QUIT);
-		return true;
+		else{
+//			redis.delK("UserKey:"+UserKey.token+token);
+			redis.set(UserKey.token, token, userAccount);
+			return true;
+		}
 	}
 	
 //	public void returnErrorResponse(HttpServletResponse response, Result result)

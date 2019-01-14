@@ -99,9 +99,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		UserAccount tempUser = new UserAccount();
+		tempUser.setUserPhone(userAccount.getUserPhone());
 //		addCookie(response, token, userAccount);
 //		request.getSession().setAttribute("token",token);
-		redisService.set(UserKey.token, token, userAccount);
+		redisService.set(UserKey.token, token, tempUser);
 		HashMap map = new HashMap();
 		map.put("userName", userAccount.getUserName());
 		map.put("role", userAccount.getRoleId());
