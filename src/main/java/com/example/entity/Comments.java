@@ -21,6 +21,12 @@ public class Comments {
 
     private String status;
 
+    @TableField("parent_id")
+    private Integer parentId;
+
+    @TableField("star")
+    private Integer star;
+
     @TableField("create_time")
     private Date createTime;
 
@@ -64,6 +70,22 @@ public class Comments {
         this.status = status == null ? null : status.trim();
     }
 
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public Integer getStar() {
+        return star;
+    }
+
+    public void setStar(Integer star) {
+        this.star = star;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -71,4 +93,5 @@ public class Comments {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
 }

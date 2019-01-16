@@ -6,6 +6,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="article_id" jdbcType="INTEGER" property="articleId" />
     <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="star" jdbcType="INTEGER" property="star" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -26,6 +28,7 @@
     left join user_account u on u.user_uuid = c.user_id
     where
     c.article_id = #{articleId}
+    and c.status != '2000'
     order by c.create_time desc
   </select>
 </mapper>
