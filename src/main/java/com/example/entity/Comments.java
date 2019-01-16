@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Comments {
@@ -17,6 +19,8 @@ public class Comments {
     @TableField("article_id")
     private Integer articleId;
 
+    @NotBlank
+    @Size( max = 250, message = "评论长度不能超过250个汉字")
     private String comment;
 
     private String status;
