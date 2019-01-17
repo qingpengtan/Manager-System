@@ -101,6 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserAccount> implement
 		}
 		UserAccount tempUser = new UserAccount();
 		tempUser.setUserPhone(userAccount.getUserPhone());
+		tempUser.setRoleId(userAccount.getRoleId());
 //		addCookie(response, token, userAccount);
 //		request.getSession().setAttribute("token",token);
 		redisService.set(UserKey.token, token, tempUser);

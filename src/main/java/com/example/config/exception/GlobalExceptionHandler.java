@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 @ControllerAdvice
@@ -34,11 +36,19 @@ public class GlobalExceptionHandler {
 			String msg = error.getDefaultMessage();
 			return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));
 		}else {
-			log.error(e.getMessage());
+			log.error(this.getTrace(e));
 			return Result.error(new CodeMsg(500100,"服务器出错啦"));
 		}
 	}
 
+
+	public  String getTrace(Throwable t) {
+		StringWriter stringWriter= new StringWriter();
+		PrintWriter writer= new PrintWriter(stringWriter);
+		t.printStackTrace(writer);
+		StringBuffer buffer= stringWriter.getBuffer();
+		return buffer.toString();
+	}
 
 	/**
 	 * 默认未知异常
