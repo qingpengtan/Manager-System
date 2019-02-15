@@ -1,13 +1,13 @@
 package com.example.config.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class RedisService {
@@ -169,6 +169,8 @@ public class RedisService {
 			 return (T)str;
 		}else if(clazz == long.class || clazz == Long.class) {
 			return  (T)Long.valueOf(str);
+		}else if(clazz == JSONArray.class){
+			return (T)JSON.parseArray(str);
 		}else {
 			return JSON.toJavaObject(JSON.parseObject(str), clazz);
 		}

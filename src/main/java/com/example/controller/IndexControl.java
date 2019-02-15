@@ -1,10 +1,12 @@
 package com.example.controller;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.example.config.Permission;
 import com.example.config.exception.GlobalException;
+import com.example.config.redis.IpKey;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
@@ -15,6 +17,9 @@ import com.example.entity.UserAccount;
 import com.example.service.MusicService;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.UserServiceImpl;
+import cz.mallat.uasparser.OnlineUpdater;
+import cz.mallat.uasparser.UASparser;
+import cz.mallat.uasparser.UserAgentInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -135,5 +141,24 @@ public class IndexControl {
     public Result recentArticle(HttpServletRequest request, HttpServletResponse response,UserAccount userAccount) {
         List list = articleService.recentArticle(userAccount);
         return  Result.success(list);
+    }
+
+    @RequestMapping(value = "/visitInfo", method = RequestMethod.POST)
+    public Result visitInfo(HttpServletRequest request, HttpServletResponse response,UserAccount userAccount) {
+
+        HashMap map = new HashMap();
+        JSONArray ipList = redisService.get(IpKey.ip,"StaticIp",JSONArray.class);
+        map.put("visterNum",ipList.size());
+        map.put("ip",request.getRemoteAddr());
+        String agent= request.getHeader("user-agent");
+        try {
+            UASparser uasParser = new UASparser(OnlineUpdater.getVendoredInputStream());
+            UserAgentInfo userAgentInfo = uasParser.parse(agent);
+            map.put("os",userAgentInfo.getOsName());
+            map.put("browser",userAgentInfo.getUaFamily());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  Result.success(map);
     }
 }

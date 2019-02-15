@@ -1,11 +1,14 @@
 package com.example.config.interceptor;
 
+import com.alibaba.fastjson.JSONArray;
 import com.example.config.exception.GlobalException;
+import com.example.config.redis.IpKey;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
 import com.example.entity.UserAccount;
 import com.example.service.impl.UserServiceImpl;
+import javafx.application.Application;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,6 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MiniInterceptor implements HandlerInterceptor {
 
@@ -32,6 +40,14 @@ public class MiniInterceptor implements HandlerInterceptor {
 //		String token = (String) request.getSession().getAttribute(UserServiceImpl.COOKI_NAME_TOKEN);
 //		String token = request.getParameter("token");
 		String token = request.getHeader("token");
+		JSONArray ipList = redis.get(IpKey.ip,"StaticIp",JSONArray.class);
+		if(ipList == null || ipList.size() == 0)
+			ipList = new JSONArray();
+		String IP = request.getRemoteAddr();
+		if (!ipList.contains(IP)){
+			ipList.add(IP);
+		}
+		redis.set(IpKey.ip,"StaticIp",ipList);
 		if(StringUtils.isEmpty(token))
 			throw new GlobalException(CodeMsg.OUT_LINE);
 		UserAccount userAccount = redis.get(UserKey.token, token, UserAccount.class);
@@ -40,6 +56,7 @@ public class MiniInterceptor implements HandlerInterceptor {
 			throw new GlobalException(CodeMsg.ACCOUNT_QUIT);
 		else{
 //			redis.delK("UserKey:"+UserKey.token+token);
+
 			redis.set(UserKey.token, token, userAccount);
 			return true;
 		}
