@@ -6,6 +6,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>blog</artifactId>
 	<packaging>war</packaging>
+	<version>2</version>
 
 	<name>spring-boot</name>
 	<description>Demo project for Spring Boot</description>
