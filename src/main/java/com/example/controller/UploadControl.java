@@ -148,7 +148,7 @@ public class UploadControl {
             outputStream.write(b);
             outputStream.flush();
             outputStream.close();
-            return Result.success("http://119.29.230.48/ROO/upload/image/" + imgName + imgName);
+            return Result.success("http://119.29.230.48/upload/image/" + imgName + imgName);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.error(CodeMsg.UPLOAD_FAIL);

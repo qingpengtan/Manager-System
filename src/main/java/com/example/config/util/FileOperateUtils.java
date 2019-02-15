@@ -41,7 +41,7 @@ public class FileOperateUtils {
 //            outputStream.write(b, 0, n);
 //        }
 //        outputStream.close();
-        return "http://119.29.230.48/ROO/upload/"+fileType+"/" + imgName + suffix;
+        return "http://119.29.230.48/upload/"+fileType+"/" + imgName + suffix;
     }
 
 
