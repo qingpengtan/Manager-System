@@ -146,8 +146,16 @@ public class IndexControl {
     @RequestMapping(value = "/visitInfo", method = RequestMethod.POST)
     public Result visitInfo(HttpServletRequest request, HttpServletResponse response,UserAccount userAccount) {
 
-        HashMap map = new HashMap();
+
         JSONArray ipList = redisService.get(IpKey.ip,"StaticIp",JSONArray.class);
+        if(ipList == null || ipList.size() == 0)
+            ipList = new JSONArray();
+        String IP = getIpAddr(request);
+        if (!ipList.contains(IP)){
+            ipList.add(IP);
+        }
+        redisService.set(IpKey.ip,"StaticIp",ipList);
+        HashMap map = new HashMap();
         map.put("visterNum",ipList.size());
         map.put("ips",request.getRemoteAddr());
         map.put("ip",getIpAddr(request));
