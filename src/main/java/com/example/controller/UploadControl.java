@@ -50,7 +50,7 @@ public class UploadControl {
     @Autowired
     private MusicService musicService;
 
-    @RequestMapping(value = "/image", method = RequestMethod.POST)
+    @RequestMapping(value = "/imgs", method = RequestMethod.POST)
     public Result upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
         String basePath = uploadProperties.getBasePath(UploadProperties.FILE_TYPE_IMAGE);
         try {
