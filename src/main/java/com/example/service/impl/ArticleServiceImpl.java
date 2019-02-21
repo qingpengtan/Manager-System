@@ -29,6 +29,10 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
         return articleDao.selectArticleList(page,article,userAccount,detial);
     }
 
+    public List selectArticleList(Page page, Article article  ) {
+        return articleDao.queryArticleList(page,article);
+    }
+
     public List classify(String param) {
         return articleDao.classify(param);
     }

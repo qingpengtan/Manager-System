@@ -60,6 +60,42 @@
 
   </select>
 
+
+  <select id="queryArticleList" parameterType="com.example.entity.Article" resultType="Map">
+    SELECT
+    a.article_id AS articleId,
+    a.article_tag_id AS articleTag,
+    u.user_name AS userName,
+    u.user_phone AS userPhone,
+    u.user_pic as userPic,
+    a.article_title AS articleTitle,
+    a.article_brief As articleBrief,
+    a.is_stick as isStick,
+    at.article_tag as articleTagName,
+    a. status,
+    DATE_FORMAT(
+    a.create_time,
+    '%Y-%m-%d %H:%i'
+    ) AS createTime
+    FROM
+    article a
+    LEFT JOIN user_account u ON a.user_id = u.user_uuid
+    LEFT JOIN article_tag at on a.article_tag_id = at.article_tag_id
+    WHERE
+    1 = 1
+    <if test="article.articleId !=null and article.articleId != ''">
+      AND a.article_id = #{article.articleId}
+    </if>
+    <if test="article.articleTagId !=null and article.articleTagId != ''">
+      AND a.article_tag_id = #{article.articleTagId}
+    </if>
+    <if test="article.articleTitle !=null and article.articleTitle != ''">
+      AND a.article_title LIKE CONCAT(CONCAT('%',  #{article.articleTitle}),'%')
+    </if>
+    order by a.is_stick desc, a.create_time desc
+
+  </select>
+
   <select id="classify" parameterType="String" resultType="Map">
     SELECT
     article_tag_id AS articleTagId,

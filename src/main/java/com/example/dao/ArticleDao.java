@@ -19,6 +19,7 @@ public interface ArticleDao extends BaseMapper<Article> {
 											   @Param("detail")  String detail);
 
 
+	List<Map<String,Object>> queryArticleList(Page page, @Param("article") Article article);
 
 	List<Map<String,Object>> classify(@Param("exclude")String param);
 
