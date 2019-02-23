@@ -2,6 +2,7 @@ package com.example.controller.api;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.example.config.exception.GlobalException;
 import com.example.config.redis.IpKey;
@@ -10,8 +11,11 @@ import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
 import com.example.config.util.Result;
 import com.example.entity.Article;
+import com.example.entity.Comments;
 import com.example.entity.UserAccount;
 import com.example.service.impl.ArticleServiceImpl;
+import com.example.service.impl.CommentsServiceImpl;
+import com.example.service.impl.UserServiceImpl;
 import cz.mallat.uasparser.OnlineUpdater;
 import cz.mallat.uasparser.UASparser;
 import cz.mallat.uasparser.UserAgentInfo;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +41,11 @@ public class ApiControl {
 
     @Autowired
     RedisService redisService;
+
+    @Autowired
+    UserServiceImpl userService;
+    @Autowired
+    CommentsServiceImpl commentsService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
@@ -145,5 +155,31 @@ public class ApiControl {
         }
         System.out.println("获取客户端ip: " + ip);
         return ip;
+    }
+
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public Result comment(HttpServletRequest request, HttpServletResponse response, Comments comments) {
+        String token = request.getHeader("token");
+        UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
+        if(userAccount == null){
+            throw new GlobalException(CodeMsg.OUT_LINE);
+        }
+        UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
+                .eq("user_phone",userAccount.getUserPhone()));
+        comments.setUserId(user.getUserUuid());
+        comments.setStatus("1000");
+        comments.setCreateTime(new Date());
+        commentsService.insert(comments);
+        return  Result.success(null);
+    }
+
+
+    @RequestMapping(value = "/commentList", method = RequestMethod.POST)
+    public Result commentList(HttpServletRequest request, HttpServletResponse response, Comments comments) {
+
+        List list = commentsService.commentsList(comments);
+
+        return  Result.success(list);
     }
 }

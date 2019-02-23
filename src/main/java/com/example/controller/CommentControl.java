@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.example.config.exception.GlobalException;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
@@ -37,6 +38,9 @@ public class CommentControl {
     public Result comment(HttpServletRequest request, HttpServletResponse response, Comments comments) {
         String token = request.getHeader("token");
         UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
+        if(userAccount == null){
+            throw new GlobalException(CodeMsg.OUT_LINE);
+        }
         UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
                 .eq("user_phone",userAccount.getUserPhone()));
         comments.setUserId(user.getUserUuid());
