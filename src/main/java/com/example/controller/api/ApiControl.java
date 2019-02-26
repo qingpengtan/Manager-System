@@ -79,6 +79,12 @@ public class ApiControl {
         return  Result.success(map);
     }
 
+    @RequestMapping(value = "/viewNum", method = RequestMethod.POST)
+    public Result viewNum(HttpServletRequest request, HttpServletResponse response, Article article, UserAccount userAccount) {
+         articleService.updateById(article);
+        return  Result.success(null);
+    }
+
     @RequestMapping(value = "/visitInfo", method = RequestMethod.POST)
     public Result visitInfo(HttpServletRequest request, HttpServletResponse response,UserAccount userAccount) {
 

@@ -31,6 +31,9 @@ public class Article {
     @TableField("is_stick")
     private String isStick;
 
+    @TableField("view_num")
+    private Integer viewNum;
+
     private String content;
 
     private String status;
@@ -124,6 +127,14 @@ public class Article {
 
     public Date getUpdateTime() {
         return updateTime;
+    }
+
+    public Integer getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(Integer viewNum) {
+        this.viewNum = viewNum;
     }
 
     public void setUpdateTime(Date updateTime) {
