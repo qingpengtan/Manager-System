@@ -47,7 +47,12 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
     }
 
     public HashMap articleDetail(Article article, UserAccount userAccount) {
-        return articleDao.articleDetail(article,userAccount);
+
+        HashMap map = articleDao.articleDetail(article,userAccount);
+        article.setViewNum((Integer) map.get("viewNum")+1);
+        articleDao.updateById(article);
+        map.put("viewNum",article.getViewNum());
+        return map;
     }
 
     public List recentArticle(UserAccount userAccount) {

@@ -9,7 +9,9 @@ import com.example.config.redis.IpKey;
 import com.example.config.redis.RedisService;
 import com.example.config.redis.UserKey;
 import com.example.config.util.CodeMsg;
+import com.example.config.util.MD5Util;
 import com.example.config.util.Result;
+import com.example.dao.UserDao;
 import com.example.entity.Article;
 import com.example.entity.Comments;
 import com.example.entity.UserAccount;
@@ -31,6 +33,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -46,6 +49,9 @@ public class ApiControl {
     UserServiceImpl userService;
     @Autowired
     CommentsServiceImpl commentsService;
+
+    @Autowired
+    UserDao userDao;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
@@ -77,12 +83,6 @@ public class ApiControl {
     public Result detail(HttpServletRequest request, HttpServletResponse response, Article article, UserAccount userAccount) {
         HashMap map = articleService.articleDetail(article,userAccount);
         return  Result.success(map);
-    }
-
-    @RequestMapping(value = "/viewNum", method = RequestMethod.POST)
-    public Result viewNum(HttpServletRequest request, HttpServletResponse response, Article article, UserAccount userAccount) {
-         articleService.updateById(article);
-        return  Result.success(null);
     }
 
     @RequestMapping(value = "/visitInfo", method = RequestMethod.POST)
@@ -168,12 +168,23 @@ public class ApiControl {
     public Result comment(HttpServletRequest request, HttpServletResponse response, Comments comments) {
         String token = request.getHeader("token");
         UserAccount userAccount = redisService.get(UserKey.token, token, UserAccount.class);
+        UserAccount tempUser = new UserAccount();
         if(userAccount == null){
-            throw new GlobalException(CodeMsg.OUT_LINE);
+//            tempUser.setRoleId(1);
+//            tempUser.setUserPhone("tempUser");
+//            tempUser.setUserName(getIpAddr(request) + "用户");
+//            tempUser.setCreateTime(new Date());
+//            String salt = UUID.randomUUID().toString().substring(0,6);
+//            tempUser.setSalt(salt);
+//            tempUser.setStatus("1000");
+//            tempUser.setUserPic("http://119.29.230.48/upload/image/tomcat.png");
+//            tempUser.setPassword(MD5Util.md5(MD5Util.md5(salt)));
+            tempUser.setUserUuid(1);
+        }else {
+            tempUser = userService.selectOne(new EntityWrapper<UserAccount>()
+                    .eq("user_phone",userAccount.getUserPhone()));
         }
-        UserAccount user = userService.selectOne(new EntityWrapper<UserAccount>()
-                .eq("user_phone",userAccount.getUserPhone()));
-        comments.setUserId(user.getUserUuid());
+        comments.setUserId(tempUser.getUserUuid());
         comments.setStatus("1000");
         comments.setCreateTime(new Date());
         commentsService.insert(comments);
