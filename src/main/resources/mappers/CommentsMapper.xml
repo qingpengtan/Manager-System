@@ -22,7 +22,8 @@
     '%Y-%m-%d %H:%i'
     ) AS createTime,
     u.user_name as userName,
-    u.user_pic as userPic
+    u.user_pic as userPic,
+    u.role_id as roleId
     from
     comments c
     left join user_account u on u.user_uuid = c.user_id

@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +70,9 @@ public class IndexControl {
             article.setStatus("1000");
             article.setCreateTime(new Date());
             if(StringUtils.isEmpty(article.getArticleTitle())){
-                article.setArticleTitle(user.getUserName());
+                Date d = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+                article.setArticleTitle(user.getUserName()+"--"+sdf.format(d));
             }
             article.setUserId(user.getUserUuid());
             articleService.insert(article);
