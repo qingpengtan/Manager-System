@@ -17,6 +17,7 @@
 
     select
     c.comment,
+    c.comments_id as comId,
     DATE_FORMAT(
     c.create_time,
     '%Y-%m-%d %H:%i'
