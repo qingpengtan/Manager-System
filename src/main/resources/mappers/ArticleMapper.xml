@@ -93,7 +93,7 @@
     c.article_id
     ) co ON a.article_id = co.article_id
     WHERE
-    1 = 1
+    a.status != '2000'
     <if test="article.articleId !=null and article.articleId != ''">
       AND a.article_id = #{article.articleId}
     </if>
@@ -142,8 +142,8 @@
     article a
     LEFT JOIN user_account u ON a.user_id = u.user_uuid
     LEFT JOIN article_tag at on a.article_tag_id = at.article_tag_id
-    WHERE a.status != '2000'
-      AND a.article_id = #{article.articleId}
+    WHERE
+       a.article_id = #{article.articleId}
 
   </select>
 
