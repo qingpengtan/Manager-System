@@ -14,7 +14,9 @@ import com.example.config.util.Result;
 import com.example.dao.UserDao;
 import com.example.entity.Article;
 import com.example.entity.Comments;
+import com.example.entity.Music;
 import com.example.entity.UserAccount;
+import com.example.service.MusicService;
 import com.example.service.impl.ArticleServiceImpl;
 import com.example.service.impl.CommentsServiceImpl;
 import com.example.service.impl.UserServiceImpl;
@@ -52,6 +54,9 @@ public class ApiControl {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    MusicService musicService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Result List(HttpServletRequest request, HttpServletResponse response, Article article) {
@@ -197,6 +202,12 @@ public class ApiControl {
 
         List list = commentsService.commentsList(comments);
 
+        return  Result.success(list);
+    }
+
+    @RequestMapping(value = "/music", method = RequestMethod.POST)
+    public Result Music(HttpServletRequest request, HttpServletResponse response) {
+        List list = musicService.selectList(new EntityWrapper<Music>().orderBy("create_time",false));
         return  Result.success(list);
     }
 }
