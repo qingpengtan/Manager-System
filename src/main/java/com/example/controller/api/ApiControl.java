@@ -77,6 +77,12 @@ public class ApiControl {
         return  Result.success(map);
     }
 
+    @RequestMapping(value = "/archieveArticle", method = RequestMethod.POST)
+    public Result archieveArticle(HttpServletRequest request, HttpServletResponse response, Article article) {
+        List articleList = articleService.archieveArticle(article);
+        return  Result.success(articleList);
+    }
+
     @RequestMapping(value = "/classify", method = RequestMethod.POST)
     public Result classify(HttpServletRequest request, HttpServletResponse response) {
         String param = request.getParameter("exculde");

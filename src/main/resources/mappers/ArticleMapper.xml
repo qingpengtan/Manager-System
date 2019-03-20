@@ -9,6 +9,7 @@
     <result column="index_pic" jdbcType="VARCHAR" property="indexPic" />
     <result column="music_url" jdbcType="VARCHAR" property="musicUrl" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
     <result column="view_num" jdbcType="INTEGER" property="viewNum" />
     <result column="is_stick" jdbcType="VARCHAR" property="isStick" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -107,6 +108,34 @@
 
   </select>
 
+  <select id="archieveArticle" parameterType="com.example.entity.Article" resultType="Map">
+
+    SELECT
+    a.article_id AS articleId,
+    a.article_tag_id AS articleTag,
+    a.article_title AS articleTitle,
+    a.is_stick AS isStick,
+    AT .article_tag AS articleTagName,
+    a. STATUS,
+    DATE_FORMAT(
+    a.create_time,
+    '%Y-%m-%d %H:%i'
+    ) AS createTime
+    FROM
+    article a
+    LEFT JOIN article_tag AT ON a.article_tag_id = AT .article_tag_id
+    WHERE
+    a. STATUS != '2000'
+    AND a.article_tag_id != 1
+    <if test="article.articleTitle !=null and article.articleTitle != ''">
+      AND a.article_title LIKE CONCAT(CONCAT('%',  #{article.articleTitle}),'%')
+    </if>
+    ORDER BY
+    a.is_stick DESC,
+    a.create_time DESC
+
+  </select>
+
   <select id="classify" parameterType="String" resultType="Map">
     SELECT
     article_tag_id AS articleTagId,
@@ -114,7 +143,7 @@
     FROM
     article_tag
     WHERE
-    1 = 1
+    parent_id = '0'
     <if test="exclude !=null and exclude != ''">
       AND is_tag != 'untag'
     </if>

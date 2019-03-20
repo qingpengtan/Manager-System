@@ -72,7 +72,7 @@ public class IndexControl {
             if(StringUtils.isEmpty(article.getArticleTitle())){
                 Date d = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-                article.setArticleTitle(user.getUserName()+"的"+sdf.format(d));
+                article.setArticleTitle(user.getUserName()+" ∞ "+sdf.format(d));
             }
             article.setUserId(user.getUserUuid());
             articleService.insert(article);

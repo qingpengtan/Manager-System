@@ -28,4 +28,6 @@ public interface ArticleDao extends BaseMapper<Article> {
 						   @Param("user") UserAccount userAccount);
 
     List recentArticle(@Param("user")UserAccount userAccount);
+
+    List<Map<String,Object>> archieveArticle( @Param("article") Article article);
 }

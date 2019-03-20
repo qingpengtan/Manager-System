@@ -58,4 +58,8 @@ public class ArticleServiceImpl  extends ServiceImpl<ArticleDao, Article> implem
     public List recentArticle(UserAccount userAccount) {
         return articleDao.recentArticle(userAccount);
     }
+
+    public List archieveArticle(Article article) {
+        return articleDao.archieveArticle(article);
+    }
 }
