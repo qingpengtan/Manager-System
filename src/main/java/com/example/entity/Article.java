@@ -34,9 +34,6 @@ public class Article {
     @TableField("view_num")
     private Integer viewNum;
 
-    @TableField("parent_id")
-    private String parentId;
-
     private String content;
 
     private String status;
@@ -86,14 +83,6 @@ public class Article {
 
     public void setArticleTitle(String articleTitle) {
         this.articleTitle = articleTitle == null ? null : articleTitle.trim();
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     public String getContent() {

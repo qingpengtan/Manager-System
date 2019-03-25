@@ -9,7 +9,6 @@
     <result column="index_pic" jdbcType="VARCHAR" property="indexPic" />
     <result column="music_url" jdbcType="VARCHAR" property="musicUrl" />
     <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
     <result column="view_num" jdbcType="INTEGER" property="viewNum" />
     <result column="is_stick" jdbcType="VARCHAR" property="isStick" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -131,7 +130,6 @@
       AND a.article_title LIKE CONCAT(CONCAT('%',  #{article.articleTitle}),'%')
     </if>
     ORDER BY
-    a.is_stick DESC,
     a.create_time DESC
 
   </select>
